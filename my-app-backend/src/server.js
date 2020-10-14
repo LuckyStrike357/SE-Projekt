@@ -10,7 +10,7 @@ app.get('/hello', (req,res) =>res.send('Hello!'));
 app.post('/hello', (req,res)=> res.send(`Hello ${req.body.name}!`));
 
 const pool = require('./db');
-const port = 8000;
+const port = 3000;
 
 // expose an endpoint
 app.get('/testdb', async (req, res) => {
@@ -94,5 +94,5 @@ app.get('*',(req,res) => {
   res.sendFile(path.join(__dirname + '/build/index.html'));
 })
 
-app.listen(8000, () => console.log('Listening on port 8000'));
+app.listen(port, () => console.log('Listening on port ' + port ));
 
