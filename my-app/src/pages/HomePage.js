@@ -3,6 +3,7 @@ import React from 'react';
 const HomePage = () => (
     <React.Fragment>
     <h1>Hello World!</h1>
+    <p>Test Auto Deploy</p>
     <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
         incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 

@@ -7,7 +7,7 @@ var config = {
     password : "ftp123",
     port: 21,
     localRoot: __dirname + '/build',
-    remoteRoot: '/home/ftpuser/files',
+    remoteRoot: '/files',
     include: ['*'],
     deleteRemote: true 
 }
