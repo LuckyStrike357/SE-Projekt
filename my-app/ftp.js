@@ -2,12 +2,12 @@ var Deploy = require('ftp-deploy');
 var ftpDeploy = new Deploy();
  
 var config = {
-    host : "yourftphost",
-    user : "yourftpusername",
-    password : "yourpassword",
+    host : "ec2-54-93-73-128.eu-central-1.compute.amazonaws.com",
+    user : "ftpuser",
+    password : "ftp123",
     port: 21,
     localRoot: __dirname + '/build',
-    remoteRoot: '/',
+    remoteRoot: '/home/ftpuser/files',
     include: ['*'],
     deleteRemote: true 
 }
