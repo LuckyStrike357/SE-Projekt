@@ -3,11 +3,11 @@ var ftpDeploy = new Deploy();
  
 var config = {
     host : "ec2-54-93-73-128.eu-central-1.compute.amazonaws.com",
-    user : "ftpuser",
+    user : "ubuntu",
     password : "ftp123",
     port: 21,
     localRoot: __dirname + '/build',
-    remoteRoot: '/files',
+    remoteRoot: '/git/SE-Projekt/my-app-backend/src/build',
     include: ['*'],
     deleteRemote: true 
 }
