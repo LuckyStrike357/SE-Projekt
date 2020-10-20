@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+.card-deck{
+  position: center;
+  align-content: center;
+  margin:2rem;
+}
+
