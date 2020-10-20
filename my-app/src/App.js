@@ -1,20 +1,15 @@
-import React from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
-import NavBar from './NavBar';
-import HomePage from './pages/HomePage';
-import AboutPage from './pages/About';
+import React, {Component} from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
+import Routes from './Routes';
 
 function App() {
   return (
     <Router>
-    <div className="App">
-      <NavBar />
-      <div id="page-body">
-      <Route path="/" component={HomePage} exact/>
-      <Route path="/about/:id" component={AboutPage} />
+      <div className="App">
+        <Routes />
       </div>
-    </div>
     </Router>
   );
 }
