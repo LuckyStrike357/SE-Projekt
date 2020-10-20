@@ -1,15 +1,24 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import path from 'path';
+//import express from 'express';
+//import bodyParser from 'body-parser';
+//import path from 'path';
 
+const path = require("path");
+const express = require("express");
+const bodyParser = require("body-parser");
 
 const app = express();
 app.use(express.static(path.join(__dirname,'/build')));
-app.use(bodyParser.json());
-app.get('/hello', (req,res) =>res.send('Hello!'));
-app.post('/hello', (req,res)=> res.send(`Hello ${req.body.name}!`));
 
-const pool = require('./db');
+//app.get('/hello', (req,res) =>res.send('Hello!'));
+//app.post('/hello', (req,res)=> res.send(`Hello ${req.body.name}!`));
+
+// parse requests of content-type: application/json
+app.use(bodyParser.json());
+
+// parse requests of content-type: application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+
+const pool = require('./models/db.js');
 const port = 3000;
 
 // expose an endpoint
@@ -57,9 +66,13 @@ app.get('/users', async (req, res) => {
   }
 });
 
+//display index html of frontend
 app.get('*',(req,res) => {
   res.sendFile(path.join(__dirname + '/build/index.html'));
 })
+
+//get the routes
+require("./routes/customer.routes.js")(app);
 
 app.listen(port, () => console.log('Listening on port ' + port ));
 
