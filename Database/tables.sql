@@ -5,6 +5,7 @@ USE visitor_tracker;
 DROP TABLE IF EXISTS `visitor`;
 CREATE TABLE `visitor`(
 
+ `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
  `first_name` varchar(255) NOT NULL,
  `last_name` varchar(255) NOT NULL,
  `email` varchar(255) NOT NULL,
@@ -13,7 +14,7 @@ CREATE TABLE `visitor`(
  `place` varchar(255) NOT NULL,
  `postal_code` int(10) NOT NULL,
  `telephone` varchar(255) NOT NULL,
- PRIMARY KEY (`email`)
+ PRIMARY KEY (`id`)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
