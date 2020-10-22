@@ -1,5 +1,4 @@
 const Visitor = require("../models/visitor.model.js");
-const visitor = require("../models/visitor.model.js");
 
 // Create and Save a new visitor
 exports.create = (req, res) => {
@@ -23,7 +22,7 @@ exports.create = (req, res) => {
   });
 
   // Save visitor in the database
-  visitor.create(visitor, (err, data) => {
+  Visitor.create(visitor, (err, data) => {
     if (err)
       res.status(500).send({
         message:
