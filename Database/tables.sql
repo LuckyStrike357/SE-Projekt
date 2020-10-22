@@ -24,8 +24,8 @@ CREATE TABLE `booking`(
  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
  `start` date NOT NULL,
  `end` date NOT NULL,
- `visitor` varchar(255),
- FOREIGN KEY(`visitor`) REFERENCES `visitor`(`email`) ON DELETE CASCADE,
+ `visitor` int(10) unsigned,
+ FOREIGN KEY(visitor) REFERENCES `visitor`(`id`) ON DELETE CASCADE,
  PRIMARY KEY(`id`)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -48,8 +48,8 @@ CREATE TABLE `timeslot`(
  `start` date NOT NULL,
  `end` date NOT NULL,
  `capacity` int(10) unsigned NOT NULL,
- `booking_id` int(10) unsigned,
- FOREIGN KEY (booking_id) REFERENCES `booking`(`id`) ON DELETE CASCADE,
+ `booking` int(10) unsigned,
+ FOREIGN KEY (booking) REFERENCES `booking`(`id`) ON DELETE CASCADE,
  PRIMARY KEY(`id`)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
