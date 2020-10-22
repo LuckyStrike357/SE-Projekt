@@ -23,9 +23,11 @@ app.get('/',(req,res) => {
 })
 
 
-//get the routes
+//implement the routes
 require("./routes/visitor.routes.js")(app);
 require("./routes/booking.routes.js")(app);
+require("./routes/employee.routes.js")(app);
+
 
 // set port, listen for requests
 app.listen(3000, () => {
