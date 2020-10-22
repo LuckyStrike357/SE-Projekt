@@ -25,7 +25,7 @@ Visitor.create = (newVisitor, result) => {
   });
 };
 
-Visitor.findById = (customerId, result) => {
+Visitor.findById = (visitorId, result) => {
   sql.query(`SELECT * FROM visitor WHERE id = ${visitorId}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -57,7 +57,7 @@ Visitor.getAll = result => {
   });
 };
 
-Visitor.updateById = (id, customer, result) => {
+Visitor.updateById = (id, visitor, result) => {
   sql.query(
     "UPDATE visitor SET email = ?, first_name = ?, last_name = ?, street = ?, number = ?, place = ?, postal_code = ?, telephone = ? WHERE id = ?",
     [visitor.email, visitor.first_name, visitor.last_name, visitor.street, visitor.number, visitor.place, visitor.postal_code, visitor.telephone, id],
