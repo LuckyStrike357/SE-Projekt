@@ -27,6 +27,7 @@ app.get('/',(req,res) => {
 require("./routes/visitor.routes.js")(app);
 require("./routes/booking.routes.js")(app);
 require("./routes/employee.routes.js")(app);
+require("./routes/timeslot.routes.js")(app);
 
 
 // set port, listen for requests
