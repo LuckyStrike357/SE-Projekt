@@ -1,4 +1,4 @@
-DROP DATABASE visitor_tracker;
+DROP DATABASE if EXISTS visitor_tracker;
 CREATE DATABASE visitor_tracker;
 USE visitor_tracker;
 
