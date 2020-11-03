@@ -43,3 +43,28 @@
   margin:2rem;
 }
 
+.textboxes {
+  margin-bottom: 70px;
+  margin-left: 550px;
+  margin-right: 550px; 
+}
+
+.Header{
+  margin: 30px;
+  font-size: x-large;
+  font-weight: 500;
+}
+
+.background{
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  margin: 10px;
+}
+
+body{
+  background: url(Mundschutz.jpg) no-repeat center center fixed;
+  background-size: cover;
+}
+
