@@ -22,8 +22,8 @@ CREATE TABLE `visitor`(
 DROP TABLE IF EXISTS `booking`;
 CREATE TABLE `booking`(
  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
- `start` date NOT NULL,
- `end` date NOT NULL,
+ `start` datetime NOT NULL,
+ `end` datetime NOT NULL,
  `visitor` int(10) unsigned,
  FOREIGN KEY(visitor) REFERENCES `visitor`(`id`) ON DELETE CASCADE,
  PRIMARY KEY(`id`)
@@ -45,8 +45,8 @@ CREATE TABLE `employee`(
 DROP TABLE IF EXISTS `timeslot`;
 CREATE TABLE `timeslot`(
  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
- `start` date NOT NULL,
- `end` date NOT NULL,
+ `start` datetime NOT NULL,
+ `end` datetime NOT NULL,
  `capacity` int(10) unsigned NOT NULL,
  `booking` int(10) unsigned,
  FOREIGN KEY (booking) REFERENCES `booking`(`id`) ON DELETE CASCADE,
