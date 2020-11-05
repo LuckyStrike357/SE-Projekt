@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Component } from 'react';
 
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import history from './../history';
 import { Form, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 
@@ -13,6 +14,7 @@ export default class DataFormPage extends Component {
         //test if booking has capacity
         console.log(this)
         history.push({ pathname: '/bookingCode', data: this.state.bookingCode });
+
     }
 
     enabled (chkddl) {
