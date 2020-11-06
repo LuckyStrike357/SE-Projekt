@@ -48,9 +48,17 @@ CREATE TABLE `timeslot`(
  `start` datetime NOT NULL,
  `end` datetime NOT NULL,
  `capacity` int(10) unsigned NOT NULL,
- `booking` int(10) unsigned,
- FOREIGN KEY (booking) REFERENCES `booking`(`id`) ON DELETE CASCADE,
  PRIMARY KEY(`id`)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `timeslot_booking`;
+CREATE TABLE `timeslot_booking` (
+    `timeslot_id` int unsigned not null,
+    `booking_id` int unsigned not null,
+    CONSTRAINT `timeslot_booking_timeslot` foreign key (`timeslot_id`) references `timeslot`(`id`),
+    CONSTRAINT `timeslot_booking_booking` foreign key (`booking_id`) references `booking`(`id`),
+    CONSTRAINT `timeslot_booking_unique` UNIQUE (`timeslot_id`, `booking_id`)
+)
+
 
