@@ -29,8 +29,11 @@ const StartPage = () => (
           <Card.Body>
             <Card.Title>Neue Buchung</Card.Title>
             <Card.Text>
-              Sie möchten eine Eintrittskarte für das Schwimmbad buchen? Dann folgen Sie diesem Button.
-          </Card.Text>
+
+              Some quick example text to build on the card title and make up the bulk of
+              the card's content. Test.
+            </Card.Text>
+
             <Button variant="primary" onClick={() => history.push('/findSlot')}>Find a Slot!</Button>
           </Card.Body>
         </Card>
