@@ -41,7 +41,7 @@ export default class DataFormPage extends Component {
 
                     <div class="Header">
                         Bitte helfen Sie mit, und geben Sie ihre Kontaktdaten an.
-                </div>
+                    </div>
                     <div class="textboxes">
                         <Form>
                             <table>
