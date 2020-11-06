@@ -5,6 +5,12 @@ import history from './../history';
 
 export default class BookingCodePage extends Component {
 
+    constructor(props){
+        super(props);
+        console.log(this.props.location.data);
+    }
+    
+
     state = {
 
     }
@@ -17,6 +23,7 @@ export default class BookingCodePage extends Component {
         return (
             <React.Fragment>
                 <h1>Booking Code Page!</h1>
+
                 <div className="textboxes">
 
                     <QRCode
