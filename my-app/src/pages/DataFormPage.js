@@ -50,7 +50,9 @@ export default class DataFormPage extends Component {
                     <div className="Header">
                         Bitte helfen Sie mit, und geben Sie ihre Kontaktdaten an.
                     </div>
+                   
                     <div className="textboxes">
+
                         <Form>
                             <Form.Row>
                                 <Form.Group  as={Col} controlId="Vorname">
