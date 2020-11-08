@@ -11,8 +11,8 @@ export default class FindSlortPage extends Component{
         super(props);
         //fetch data for today
         const today = new Date();
-        //this.fetchBookings();
-        this.fetchTimeslotsPerDay(today);
+        this.fetchBookings();
+        //this.fetchTimeslotsPerDay(today);
 
     }
     state = {
