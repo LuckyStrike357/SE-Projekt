@@ -119,3 +119,41 @@ hr2{
   color: white;
 }
 
+
+@media (max-width:1000px){
+  .findDay{
+    display: block;
+    margin: auto;
+    padding: 1rem;
+    width: 100%; 
+    max-width: 350px;
+    min-width:350px;
+  }
+  .findTime{
+    display:block; 
+    margin: auto;
+    padding:1rem; 
+    width:100%;
+    color: white; 
+  }
+}
+
+@media (min-width:1000px){
+  .findDay{
+    display:inline-block;
+    width: 70%; 
+    padding: 2rem;
+    max-width: 350px;
+    min-width:350px;
+  }
+  .findTime{
+    display:inline-block; 
+    margin: auto;
+    padding: 2rem;
+    width:70%;
+    color: white; 
+  }
+  .wrapFind{
+    display:flex;
+  }
+}
