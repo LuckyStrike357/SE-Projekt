@@ -1,4 +1,4 @@
-const sql = require("./db.js");
+const sql = require('./db.js');
 
 // constructor
 const Timeslot = function(timeslot) {
@@ -36,6 +36,26 @@ Timeslot.findById = (timeslotId, result) => {
     }
 
     // not found timeslot with the id
+    result({ kind: "not_found" }, null);
+  });
+};
+
+//Find the timeslots between start and end date (YYYY-MM-DD HH:MM:SS)
+Timeslot.findByDate = (timeslotStart, timeslotEnd, result) => {
+  sql.query(`SELECT * FROM timeslot WHERE start between '${timeslotStart}' and '${timeslotEnd}'`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found timeslot: ", res);
+      result(null, res);
+      return;
+    }
+
+    // not found timeslot with the date
     result({ kind: "not_found" }, null);
   });
 };
