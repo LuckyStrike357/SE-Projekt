@@ -28,6 +28,25 @@ TimeslotBooking.findById = (timeslotbookingId, result) => {
     }
 
     if (res.length) {
+      console.log("found timeslotbooking: ", res);
+      result(null, res);
+      return;
+    }
+
+    // not found timeslotbooking with the id
+    result({ kind: "not_found" }, null);
+  });
+};
+
+TimeslotBooking.countById = (timeslotbookingId, result) => {
+  sql.query(`SELECT count(*) as 'bookings' FROM timeslot_booking WHERE timeslot_id = ${timeslotbookingId}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
       console.log("found timeslotbooking: ", res[0]);
       result(null, res[0]);
       return;
@@ -37,6 +56,7 @@ TimeslotBooking.findById = (timeslotbookingId, result) => {
     result({ kind: "not_found" }, null);
   });
 };
+
 
 TimeslotBooking.getAll = result => {
   sql.query("SELECT * FROM timeslot_booking", (err, res) => {

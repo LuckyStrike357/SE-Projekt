@@ -59,6 +59,26 @@ exports.findById = (req, res) => {
       }
     } else res.send(data);
   });
+};
+
+// Retrieve booking count by timeslot_id
+exports.countById = (req, res) => {
+
+  let id = req.query.id;
+
+  TimeslotBooking.countById(id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found timeslotbooking with id ${id}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving booking count for timeslot with id " + id
+        });
+      }
+    } else res.send(data);
+  });
 
 };
 

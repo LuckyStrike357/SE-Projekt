@@ -1,27 +1,26 @@
 module.exports = app => {
   const timeslotbookings = require("../controllers/timeslotbooking.controller.js");
 
-  // Create a new timeslotbooking
+  // Create a new booking for timeslot
   app.post("/timeslotbookings", timeslotbookings.create);
 
-  // Retrieve all timeslotbookings or filter by id or date range
+  // Retrieve all bookings in timeslots or filter by id or date range
   app.get('/timeslotbookings', async (req, res) => {
 
     let id = req.query.id;
-    let start = req.query.start;
-    let end = req.query.end;
+    let count = req.query.count;
 
-    //retrieve all timeslotbookings
-    if (id == undefined && start == undefined && end == undefined) {
+    //retrieve all timeslots and bookings
+    if (id == undefined && count == undefined) {
       timeslotbookings.findAll(req, res)
 
-      //retrieve single timeslotbooking by id
+      //retrieve booking count of timeslot
+    } else if (id != undefined && count != undefined) {
+      timeslotbookings.countById(req, res)
+
+      //retrieve bookings by timeslot_id
     } else if (id != undefined) {
       timeslotbookings.findById(req, res)
-
-      //retrieve timeslotbooking(s) by date range
-    } else if (start != undefined && end != undefined) {
-      timeslotbookings.findByDate(req, res)
 
       //else throw error
     } else {
