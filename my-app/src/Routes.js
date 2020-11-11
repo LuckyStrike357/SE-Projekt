@@ -9,6 +9,9 @@ import BookingCodePage from './pages/BookingCodePage';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/About';
 import AdminLogIn from './pages/admin/AdminLogIn';
+import AdminStart from './pages/admin/AdminStart';
+import AdminTimeslotView from './pages/admin/AdminTimeslotView';
+import AdminCheckQR from './pages/admin/AdminCheckQR';
 import history from './history';
 
 export default class Routes extends Component {
@@ -23,7 +26,10 @@ export default class Routes extends Component {
                     <Route path="/bookingCode" component={BookingCodePage} />
                     <Route path="/home" component={HomePage} />
                     <Route path="/about" component={AboutPage} />
-                    <Route path="/admin" component={AdminLogIn} />
+                    <Route path="/admin" exact component={AdminLogIn} />
+                    <Route path="/admin/start" component={AdminStart} />
+                    <Route path="/admin/timeslots" component={AdminTimeslotView} />
+                    <Route path="/admin/checkQR" component={AdminCheckQR} />
                 </Switch>
             </Router>
         )

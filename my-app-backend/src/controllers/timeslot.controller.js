@@ -28,6 +28,7 @@ exports.create = (req, res) => {
   });
 };
 
+
 // Retrieve all timeslots from the database.
 exports.findAll = (req, res) => {
   Timeslot.getAll((err, data) => {
@@ -41,16 +42,42 @@ exports.findAll = (req, res) => {
 };
 
 // Find a single timeslot with a timeslotId
-exports.findOne = (req, res) => {
-  Timeslot.findById(req.params.timeslotId, (err, data) => {
+exports.findById = (req, res) => {
+
+  let id = req.query.id;
+
+  Timeslot.findById(id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found timeslot with id ${req.params.timeslotId}.`
+          message: `Not found timeslot with id ${id}.`
         });
       } else {
         res.status(500).send({
-          message: "Error retrieving timeslot with id " + req.params.timeslotId
+          message: "Error retrieving timeslot with id " + id
+        });
+      }
+    } else res.send(data);
+  });
+
+};
+
+// Find all timeslots for a specific date range
+exports.findByDate = (req, res) => {
+
+  let start = req.query.start
+  let end = req.query.end
+
+  Timeslot.findByDate(start, end, (err, data) => {
+
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Found no timeslots between date ${start} and ${end}.`
+        });
+      } else {
+        res.status(500).send({
+          message: `Error retrieving timeslots between date ${start} and ${end}.`
         });
       }
     } else res.send(data);
