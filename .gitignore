@@ -1,2 +1,3 @@
 node_modules/
 my-app/debug.log
+my-app-backend/build/
