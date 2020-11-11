@@ -59,6 +59,12 @@ CREATE TABLE `timeslot_booking` (
     CONSTRAINT `timeslot_booking_timeslot` foreign key (`timeslot_id`) references `timeslot`(`id`),
     CONSTRAINT `timeslot_booking_booking` foreign key (`booking_id`) references `booking`(`id`),
     CONSTRAINT `timeslot_booking_unique` UNIQUE (`timeslot_id`, `booking_id`)
-)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+INSERT INTO `visitor` VALUES (1,'Max','Muster','m@m.com','mmstr',12,'Musterstadt',12345,'123454765');
+INSERT INTO `booking` VALUES (1,'2020-11-06 17:24:19','2020-11-06 17:24:20', 1);
+INSERT INTO `booking` VALUES (2,'2020-11-06 17:24:30','2020-11-06 17:24:32', 1);
+INSERT INTO `employee` VALUES (1,'Max','Musterangestellter');
+INSERT INTO `timeslot` VALUES (1,'2020-11-06 17:23:06','2020-11-06 17:23:08',20),(2,'2020-11-06 17:23:21','2020-11-06 17:23:22',25);
+INSERT INTO `timeslot_booking` VALUES (1,1),(1,2);
