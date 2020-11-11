@@ -1,10 +1,6 @@
-const { strict } = require("assert");
-const { state } = require("../models/db.js");
-
 module.exports = app => {
   const timeslots = require("../controllers/timeslot.controller.js");
-  const url = require('url');
-
+  
   // Create a new timeslot
   app.post("/timeslots", timeslots.create);
 

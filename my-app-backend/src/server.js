@@ -8,14 +8,6 @@ app.use(bodyParser.json());
 
 // parse requests of content-type: application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// simple route
-/*
-app.get('/',(req,res) => {
-  res.json({ message: "Hello world." });
-})
-*/
-
 app.use(express.static(path.join(__dirname,'/build')));
 
 app.get('/',(req,res) => {
@@ -28,6 +20,7 @@ require("./routes/visitor.routes.js")(app);
 require("./routes/booking.routes.js")(app);
 require("./routes/employee.routes.js")(app);
 require("./routes/timeslot.routes.js")(app);
+require("./routes/timeslotbooking.routes.js")(app);
 
 
 // set port, listen for requests
