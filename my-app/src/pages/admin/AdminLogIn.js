@@ -1,9 +1,14 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button';
+import history from './../../history';
 
 const AdminLogIn = () => (
+
     <React.Fragment>
     <h1>Admin LogIn!</h1>
+    <Button variant="primary" onClick={()=>history.push({ pathname: '/admin/start'})}>Next</Button>
     </React.Fragment>
-)
+
+);
 
 export default AdminLogIn;
