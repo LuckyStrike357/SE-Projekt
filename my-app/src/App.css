@@ -40,28 +40,37 @@
 .card-deck{
   position: center;
   align-content: center;
-  margin-top: 3%;
+  margin-top: 4%;
   margin-bottom: 4%;
-  margin-left:10% ;
-  margin-right: 10%;
+  margin-left:12% ;
+  margin-right: 12%;
 }
 
-
-.FormPersonalInformation{
-  margin: 2rem;
+@media (max-width:1000px){
+  .textboxes {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
 }
 
+@media (min-width:1000px) and (max-width:1500px){
+  .textboxes {
+    margin-left: 15rem;
+    margin-right: 15rem;
+  }
+}
+
+@media (min-width:1500px){
 .textboxes {
-  margin-bottom: 70px;
-  margin-left: 550px;
-  margin-right: 550px; 
+  margin-left: 30rem;
+  margin-right: 30rem;
+}
 }
 
-.Header{
+.Header_DataForm{
   margin: 30px;
   font-size: x-large;
   font-weight: 500;
-  font-family: crete;
 }
 
 .background{
@@ -76,19 +85,9 @@
 body{
   background: linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.7)), url(Mundschutz.jpg) no-repeat center center fixed;
   background-size: cover;
+  font-family: crete;
 }
 
-.Header{
-  z-index: +1;
-  color: white;
-  font-size: 40px;
-}
-
-.SubHeader{
-  z-index: +1;
-  color: white;
-  font-size: 20px;
-}
 @font-face{
   font-family: 'Crete';
   src: url(CreteRound-Regular.ttf);
@@ -104,8 +103,74 @@ hr.solid {
   margin: 2%;
 }
 
-hr2{
-  z-index: +1;
+#Hausnummer{
+  width: 150px;
+}
+
+#Straße{
+  width: 16.9cm;
+}
+
+#dropdown-basic-button{
+  margin-left: -23px;
+  
+}
+
+#Telefonnummer{
+  width: 18.5cm;
+  margin-right: 5px;
+}
+
+#impressum{
   color: white;
 }
 
+#lögö{
+  margin: 1%;
+  left: -850px;
+  margin-top: 1.5%;
+}
+
+#streks{
+  margin: 1%;
+  color: white;
+  position: absolute;
+}
+
+@media (max-width:1000px){
+  .findDay{
+    display: block;
+    margin: auto;
+    padding: 1rem;
+    width: 100%; 
+    max-width: 350px;
+    min-width:350px;
+  }
+  .findTime{
+    display:block; 
+    margin: auto;
+    padding:1rem; 
+    width:100%;
+    color: white; 
+  }
+}
+
+@media (min-width:1000px){
+  .findDay{
+    display:inline-block;
+    width: 70%; 
+    padding: 2rem;
+    max-width: 350px;
+    min-width:350px;
+  }
+  .findTime{
+    display:inline-block; 
+    margin: auto;
+    padding: 2rem;
+    width:70%;
+    color: white; 
+  }
+  .wrapFind{
+    display:flex;
+  }
+}
