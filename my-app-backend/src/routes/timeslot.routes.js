@@ -1,5 +1,6 @@
 module.exports = app => {
   const timeslots = require("../controllers/timeslot.controller.js");
+  const VerifyToken = require('../middleware/verifyToken.js');
   
   // Create a new timeslot
   app.post("/timeslots", timeslots.create);
@@ -31,12 +32,12 @@ module.exports = app => {
   });
 
   // Update a timeslot with timeslotId
-  app.put("/timeslots/:timeslotId", timeslots.update);
+  app.put("/timeslots/:timeslotId", VerifyToken, timeslots.update);
 
   // Delete a timeslot with timeslotId
-  app.delete("/timeslots/:timeslotId", timeslots.delete);
+  app.delete("/timeslots/:timeslotId", VerifyToken, timeslots.delete);
 
   // Delete all timeslots
-  app.delete("/timeslots", timeslots.deleteAll);
+  app.delete("/timeslots", VerifyToken, timeslots.deleteAll);
 
 };

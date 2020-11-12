@@ -14,13 +14,17 @@ app.get('/',(req,res) => {
   res.sendFile(path.join(__dirname + '/build/index.html'));
 })
 
+// sync with the database
+const db = require("./models/index");
+db.sequelize.sync();
 
-//implement the routes
+// implement the api routes
 require("./routes/visitor.routes.js")(app);
 require("./routes/booking.routes.js")(app);
 require("./routes/employee.routes.js")(app);
 require("./routes/timeslot.routes.js")(app);
 require("./routes/timeslotbooking.routes.js")(app);
+require("./routes/auth.routes.js")(app);
 
 
 // set port, listen for requests
