@@ -1,6 +1,7 @@
 module.exports = app => {
   const timeslotbookings = require("../controllers/timeslotbooking.controller.js");
-
+  const VerifyToken = require('../middleware/verifyToken.js');
+  
   // Create a new booking for timeslot
   app.post("/timeslotbookings", timeslotbookings.create);
 
@@ -30,12 +31,12 @@ module.exports = app => {
   });
 
   // Update a timeslotbooking with timeslotbookingId
-  app.put("/timeslotbookings/:timeslotbookingId", timeslotbookings.update);
+  app.put("/timeslotbookings/:timeslotbookingId", VerifyToken, timeslotbookings.update);
 
   // Delete a timeslotbooking with timeslotbookingId
-  app.delete("/timeslotbookings/:timeslotbookingId", timeslotbookings.delete);
+  app.delete("/timeslotbookings/:timeslotbookingId", VerifyToken, timeslotbookings.delete);
 
   // Delete all timeslotbookings
-  app.delete("/timeslotbookings", timeslotbookings.deleteAll);
+  app.delete("/timeslotbookings", VerifyToken, timeslotbookings.deleteAll);
 
 };
