@@ -6,8 +6,6 @@ import CanclePage from './pages/CanclePage';
 import FindSlotPage from './pages/FindSlotPage';
 import DataFormPage from './pages/DataFormPage';
 import BookingCodePage from './pages/BookingCodePage';
-import HomePage from './pages/HomePage';
-import AboutPage from './pages/About';
 import AdminLogIn from './pages/admin/AdminLogIn';
 import AdminStart from './pages/admin/AdminStart';
 import AdminTimeslotView from './pages/admin/AdminTimeslotView';
@@ -24,8 +22,6 @@ export default class Routes extends Component {
                     <Route path="/findSlot" component={FindSlotPage} />
                     <Route path="/dataForm" component={DataFormPage} />
                     <Route path="/bookingCode" component={BookingCodePage} />
-                    <Route path="/home" component={HomePage} />
-                    <Route path="/about" component={AboutPage} />
                     <Route path="/admin" exact component={AdminLogIn} />
                     <Route path="/admin/start" component={AdminStart} />
                     <Route path="/admin/timeslots" component={AdminTimeslotView} />
