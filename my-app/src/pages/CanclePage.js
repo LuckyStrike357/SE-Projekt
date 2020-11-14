@@ -20,6 +20,9 @@ export default class CanclePageClass extends Component {
                 <Form className= "CancleBookingCode">
                     <Form.Group controlId="formBasicPassword">
                         <Form.Control type="password" placeholder="Buchungscode" />
+                        <Form.Text className="Cancle-text-muted">
+                            Buchungscode vergessen?
+                    </Form.Text>
                     </Form.Group>
                     <Button variant="primary" type="submit">
                         Weiter
