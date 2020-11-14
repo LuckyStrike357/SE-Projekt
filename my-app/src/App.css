@@ -109,3 +109,18 @@ body{
   margin: 10px;
   color: white;
 }
+
+.DeleteHeader{
+  margin: 2%;
+  margin-bottom: 3%;
+}
+
+.DeleteSubHeader{
+  margin: 2.5%;
+}
+
+.CancleBookingCode{
+  margin-left: 35%;
+  margin-right: 35%;
+  margin-bottom: 2%;
+}
