@@ -17,7 +17,9 @@ body{
 
 /*StartPage*/
 .logo{
+  display: inline-block;
   max-height: 120px;
+  margin: 1%;
  }
 
 .card-deck{
@@ -107,7 +109,3 @@ body{
   margin: 10px;
   color: white;
 }
-
-
-
-

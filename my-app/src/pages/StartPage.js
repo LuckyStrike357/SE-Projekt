@@ -14,7 +14,7 @@ const StartPage = () => (
   <div>
     
       <img src={logo} className= "logo" alt="Logo"/>
-      <h1>Willkommen!</h1>
+      <h1 className= "logo">Willkommen!</h1>
       <p>Bitte wählen Sie eine Option, mit der Sie fortfahren möchten</p>
 
       <CardDeck >
