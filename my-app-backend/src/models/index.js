@@ -25,24 +25,19 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // Create database tables
-db.user = require("./user.model.js")(sequelize, Sequelize);
-//db.role = require("../models/role.model.js")(sequelize, Sequelize);
+db.visitor = require("./visitor.model")(sequelize, Sequelize);
+db.booking = require("./booking.model")(sequelize, Sequelize);
+db.timeslot = require("./timeslot.model")(sequelize, Sequelize); 
+db.user = require("./user.model")(sequelize, Sequelize);
+
 
 // Define Relationships
-/*
-db.role.belongsToMany(db.user, {
-  through: "user_roles",
-  foreignKey: "roleId",
-  otherKey: "userId"
-});
 
-db.user.belongsToMany(db.role, {
-  through: "user_roles",
-  foreignKey: "userId",
-  otherKey: "roleId"
-});
+// Each booking has one visitor
+db.visitor.hasOne(db.booking);
 
-db.ROLES = ["user", "admin", "moderator"];
-*/
+//Timeslot has many bookings but a booking has only one timeslot 
+db.timeslot.hasMany(db.booking);
+db.booking.belongsTo(db.timeslot);
 
 module.exports = db;
