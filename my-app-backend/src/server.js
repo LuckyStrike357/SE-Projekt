@@ -16,7 +16,44 @@ app.get('/',(req,res) => {
 
 // sync with the database
 const db = require("./models/index");
-db.sequelize.sync();
+db.sequelize.sync({ force: true }).then(res => { run() });
+
+//create some data
+const run = async () => {
+  await db.visitor.create({
+    email: "test@test.de",
+    first_name: "Max",
+    last_name: "Mustermann",
+    street: "Musterstraße",
+    number: 1,
+    city: "Musterstadt",
+    postal_code: 123456,
+    telephone: "+49 123 456789",
+  })
+
+  await db.timeslot.create({
+    start: "2020-11-15 08:00:00",
+    end: "2020-11-15 09:59:59"
+  })
+
+  await db.timeslot.create({
+    start: "2020-11-16 08:00:00",
+    end: "2020-11-16 09:59:59"
+  })
+
+  await db.booking.create({
+    visitorId: 1,
+    timeslotId: 1
+  })
+
+  var bcrypt = require('bcryptjs');
+  await db.user.create({
+    first_name: "Test",
+    last_name: "Testuser",
+    password: bcrypt.hashSync("password123", 8)
+  })
+
+};
 
 // implement the api routes
 require("./routes/visitor.routes.js")(app);
