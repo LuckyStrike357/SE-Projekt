@@ -49,7 +49,7 @@ export default class FindSlortPage extends Component {
     }
 
     fetchTimeslotBookings = async (id, capacity) =>{
-        var url = `/timeslotbookings/?id=`+id + `&count`;
+        var url = `/timeslots/?id=`+id + `&count=true`;
         const result = await fetch(url);
         if (result.ok) {
             const body = await result.json();
