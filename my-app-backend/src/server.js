@@ -16,7 +16,6 @@ app.get('/', (req, res) => {
 
 // sync with the database
 const db = require("./models/index");
-<<<<<<< HEAD
 db.sequelize.sync({ force: true }).then(res => { run() });
 
 //create some data
@@ -55,9 +54,6 @@ const run = async () => {
   })
 
 };
-=======
-db.sequelize.sync({ force: false });
->>>>>>> 88cbd8475a8bcd72a91d1dca3fd912de4cffc2b4
 
 // implement the api routes
 require("./routes/visitor.routes.js")(app);
