@@ -1,143 +1,169 @@
-const Timeslot = require("../models/timeslot.model.js");
+/**
+ * Import models
+ */
+const db = require("../models");
+const timeslotModel = require("../models/timeslot.model");
+var Timeslot = db.timeslot;
+const Op = db.Sequelize.Op;
 
-// Create and Save a new timeslot
+// Create and Save a new Timeslot
 exports.create = (req, res) => {
-  // Validate request
-  if (!req.body) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-  }
+    // Validate request
+    if (!req.body.start || !req.body.end) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+        return;
+    }
 
-  // Create a timeslot
-  const timeslot = new Timeslot({
-    start: req.body.start,
-    end: req.body.end,
-    capacity: req.body.capacity,
-    booking: req.body.booking
-  });
+    // Create a Timeslot
+    const timeslot = {
+        start: req.body.start,
+        end: req.body.end
+    };
 
-  // Save timeslot in the database
-  Timeslot.create(timeslot, (err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the timeslot."
-      });
-    else res.send(data);
-  });
+    // Save Timeslot in the database
+    Timeslot.create(timeslot)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while creating the Timeslot."
+            });
+        });
+
 };
 
-
-// Retrieve all timeslots from the database.
+// Retrieve all Timeslots from the database.
 exports.findAll = (req, res) => {
-  Timeslot.getAll((err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving timeslots."
-      });
-    else res.send(data);
-  });
+
+    Timeslot.findAll()
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving timeslots."
+            });
+        });
 };
 
-// Find a single timeslot with a timeslotId
+// Find a single Timeslot with an id
 exports.findById = (req, res) => {
+    const id = req.query.id;
 
-  let id = req.query.id;
-
-  Timeslot.findById(id, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found timeslot with id ${id}.`
+    Timeslot.findByPk(id)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error retrieving timeslot with id=" + id
+            });
         });
-      } else {
-        res.status(500).send({
-          message: "Error retrieving timeslot with id " + id
-        });
-      }
-    } else res.send(data);
-  });
 
 };
 
 // Find all timeslots for a specific date range
 exports.findByDate = (req, res) => {
 
-  let start = req.query.start
-  let end = req.query.end
+    let start = req.query.start
+    let end = req.query.end
 
-  Timeslot.findByDate(start, end, (err, data) => {
-
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Found no timeslots between date ${start} and ${end}.`
+    Timeslot.findAll({ where: { start: { [Op.between]: [start, end] } } })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error retrieving timeslots with start=" + start + " and end=" + end
+            });
         });
-      } else {
-        res.status(500).send({
-          message: `Error retrieving timeslots between date ${start} and ${end}.`
-        });
-      }
-    } else res.send(data);
-  });
 };
 
-// Update a timeslot identified by the timeslotId in the request
+exports.findAndCount = (req, res) => {
+
+    let Booking = db.booking;
+    let id = req.query.id
+
+    Booking.findAndCountAll({ where: { timeslotId: id } })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error retrieving timeslots with id=" + id
+            });
+        });
+
+}
+
+// Update a Timeslot by the id in the request
 exports.update = (req, res) => {
-  // Validate Request
-  if (!req.body) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-  }
+    const id = req.query.id;
 
-  Timeslot.updateById(
-    req.params.timeslotId,
-    new Timeslot(req.body),
-    (err, data) => {
-      if (err) {
-        if (err.kind === "not_found") {
-          res.status(404).send({
-            message: `Not found timeslot with id ${req.params.timeslotId}.`
-          });
-        } else {
-          res.status(500).send({
-            message: "Error updating timeslot with id " + req.params.timeslotId
-          });
-        }
-      } else res.send(data);
-    }
-  );
+    Timeslot.update(req.body, {
+        where: { id: id }
+    })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "Timeslot was updated successfully."
+                });
+            } else {
+                res.send({
+                    message: `Cannot update Timeslot with id=${id}. Maybe Timeslot was not found or req.body is empty!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error updating Timeslot with id=" + id
+            });
+        });
 };
 
-// Delete a timeslot with the specified timeslotId in the request
+// Delete a Timeslot with the specified id in the request
 exports.delete = (req, res) => {
-  Timeslot.remove(req.params.timeslotId, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found timeslot with id ${req.params.timeslotId}.`
+    const id = req.query.id;
+
+    Timeslot.destroy({
+        where: { id: id }
+    })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "Timeslot was deleted successfully!"
+                });
+            } else {
+                res.send({
+                    message: `Cannot delete Timeslot with id=${id}. Maybe Timeslot was not found!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Could not delete Timeslot with id=" + id
+            });
         });
-      } else {
-        res.status(500).send({
-          message: "Could not delete timeslot with id " + req.params.timeslotId
-        });
-      }
-    } else res.send({ message: `timeslot was deleted successfully!` });
-  });
 };
 
-// Delete all timeslots from the database.
+// Delete all Timeslots from the database.
 exports.deleteAll = (req, res) => {
-  Timeslot.removeAll((err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all timeslots."
-      });
-    else res.send({ message: `All timeslots were deleted successfully!` });
-  });
+    Timeslot.destroy({
+        where: {},
+        truncate: false
+    })
+        .then(nums => {
+            res.send({ message: `${nums} Timeslots were deleted successfully!` });
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while removing all timeslots."
+            });
+        });
 };
-

@@ -1,5 +1,5 @@
 /**
- * Import User model
+ * Import models
  */
 const db = require("../models/index.js");
 var User = db.user;
