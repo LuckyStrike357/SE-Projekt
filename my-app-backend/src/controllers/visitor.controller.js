@@ -1,120 +1,141 @@
-const Visitor = require("../models/visitor.model.js");
+/**
+ * Import models
+ */
+const db = require("../models");
+var Visitor = db.visitor;
+const Op = db.Sequelize.Op;
 
-// Create and Save a new visitor
+// Create and Save a new Visitor
 exports.create = (req, res) => {
-  // Validate request
-  if (!req.body) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-  }
-
-  // Create a visitor
-  const visitor = new Visitor({
-    email: req.body.email,
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    street: req.body.street,
-    number : req.body.number,
-    place : req.body.place,
-    postal_code : req.body.postal_code,
-    telephone : req.body.telephone,
-  });
-
-  // Save visitor in the database
-  Visitor.create(visitor, (err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the visitor."
-      });
-    else res.send(data);
-  });
-};
-
-// Retrieve all visitors from the database.
-exports.findAll = (req, res) => {
-  Visitor.getAll((err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving visitors."
-      });
-    else res.send(data);
-  });
-};
-
-// Find a single visitor with a visitorId
-exports.findOne = (req, res) => {
-  Visitor.findById(req.params.visitorId, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found visitor with id ${req.params.visitorId}.`
+    // Validate request
+    if (!req.body) {
+        res.status(400).send({
+            message: "Content can not be empty!"
         });
-      } else {
-        res.status(500).send({
-          message: "Error retrieving visitor with id " + req.params.visitorId
-        });
-      }
-    } else res.send(data);
-  });
-};
-
-// Update a visitor identified by the visitorId in the request
-exports.update = (req, res) => {
-  // Validate Request
-  if (!req.body) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-  }
-
-  Visitor.updateById(
-    req.params.visitorId,
-    new Visitor(req.body),
-    (err, data) => {
-      if (err) {
-        if (err.kind === "not_found") {
-          res.status(404).send({
-            message: `Not found visitor with id ${req.params.visitorId}.`
-          });
-        } else {
-          res.status(500).send({
-            message: "Error updating visitor with id " + req.params.visitorId
-          });
-        }
-      } else res.send(data);
+        return;
     }
-  );
+
+    // Create a Visitor
+    const visitor = {
+        email: req.body.email,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        street: req.body.street,
+        number: req.body.number,
+        city: req.body.city,
+        postal_code: req.body.postal_code,
+        telephone: req.body.telephone,
+    };
+
+    // Save Visitor in the database
+    Visitor.create(visitor)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while creating the Visitor."
+            });
+        });
+
 };
 
-// Delete a visitor with the specified visitorId in the request
+// Retrieve all Visitors from the database.
+exports.findAll = (req, res) => {
+
+    Visitor.findAll()
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving visitors."
+            });
+        });
+};
+
+// Find a single Visitor with an id
+exports.findOne = (req, res) => {
+    const id = req.query.id;
+
+    Visitor.findByPk(id)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error retrieving visitor with id=" + id
+            });
+        });
+
+};
+
+
+// Update a Visitor by the id in the request
+exports.update = (req, res) => {
+    const id = req.query.id;
+
+    Visitor.update(req.body, {
+        where: { id: id }
+    })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "Visitor was updated successfully."
+                });
+            } else {
+                res.send({
+                    message: `Cannot update Visitor with id=${id}. Maybe Visitor was not found or req.body is empty!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error updating Visitor with id=" + id
+            });
+        });
+};
+
+// Delete a Visitor with the specified id in the request
 exports.delete = (req, res) => {
-  Visitor.remove(req.params.visitorId, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found visitor with id ${req.params.visitorId}.`
+    const id = req.query.id;
+
+    Visitor.destroy({
+        where: { id: id }
+    })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "Visitor was deleted successfully!"
+                });
+            } else {
+                res.send({
+                    message: `Cannot delete Visitor with id=${id}. Maybe Visitor was not found!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Could not delete Visitor with id=" + id
+            });
         });
-      } else {
-        res.status(500).send({
-          message: "Could not delete visitor with id " + req.params.visitorId
-        });
-      }
-    } else res.send({ message: `visitor was deleted successfully!` });
-  });
 };
 
-// Delete all visitors from the database.
+// Delete all Visitors from the database.
 exports.deleteAll = (req, res) => {
-  Visitor.removeAll((err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all visitors."
-      });
-    else res.send({ message: `All visitors were deleted successfully!` });
-  });
+    Visitor.destroy({
+        where: {},
+        truncate: false
+    })
+        .then(nums => {
+            res.send({ message: `${nums} Visitors were deleted successfully!` });
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while removing all visitors."
+            });
+        });
 };
-

@@ -1,115 +1,134 @@
-const Booking = require("../models/booking.model.js");
+/**
+ * Import models
+ */
+const db = require("../models");
+var Booking = db.booking;
+const Op = db.Sequelize.Op;
 
-// Create and Save a new booking
+// Create and Save a new Booking
 exports.create = (req, res) => {
-  // Validate request
-  if (!req.body) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-  }
-
-  // Create a booking
-  const booking = new Booking({
-    start: req.body.start,
-    end: req.body.end,
-    visitor: req.body.visitor
-  });
-
-  // Save booking in the database
-  Booking.create(booking, (err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the booking."
-      });
-    else res.send(data);
-  });
-};
-
-// Retrieve all bookings from the database.
-exports.findAll = (req, res) => {
-  Booking.getAll((err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving bookings."
-      });
-    else res.send(data);
-  });
-};
-
-// Find a single booking with a bookingId
-exports.findOne = (req, res) => {
-  Booking.findById(req.params.bookingId, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found booking with id ${req.params.bookingId}.`
+    // Validate request
+    if (!req.body.visitorId || !req.body.timeslotId) {
+        res.status(400).send({
+            message: "Content can not be empty!"
         });
-      } else {
-        res.status(500).send({
-          message: "Error retrieving booking with id " + req.params.bookingId
-        });
-      }
-    } else res.send(data);
-  });
-};
-
-// Update a booking identified by the bookingId in the request
-exports.update = (req, res) => {
-  // Validate Request
-  if (!req.body) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-  }
-
-  Booking.updateById(
-    req.params.bookingId,
-    new Booking(req.body),
-    (err, data) => {
-      if (err) {
-        if (err.kind === "not_found") {
-          res.status(404).send({
-            message: `Not found booking with id ${req.params.bookingId}.`
-          });
-        } else {
-          res.status(500).send({
-            message: "Error updating booking with id " + req.params.bookingId
-          });
-        }
-      } else res.send(data);
+        return;
     }
-  );
+
+    // Create a Booking
+    const booking = {
+        visitorId: req.body.visitorId,
+        timeslotId: req.body.timeslotId
+    };
+
+    // Save Booking in the database
+    Booking.create(booking)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while creating the Booking."
+            });
+        });
+
 };
 
-// Delete a booking with the specified bookingId in the request
+// Retrieve all Bookings from the database.
+exports.findAll = (req, res) => {
+
+    Booking.findAll()
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving bookings."
+            });
+        });
+};
+
+// Find a single Booking with an id
+exports.findOne = (req, res) => {
+    const id = req.query.id;
+
+    Booking.findByPk(id)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error retrieving booking with id=" + id
+            });
+        });
+
+};
+
+// Update a Booking by the id in the request
+exports.update = (req, res) => {
+    const id = req.query.id;
+
+    Booking.update(req.body, {
+        where: { id: id }
+    })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "Booking was updated successfully."
+                });
+            } else {
+                res.send({
+                    message: `Cannot update Booking with id=${id}. Maybe Booking was not found or req.body is empty!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error updating Booking with id=" + id
+            });
+        });
+};
+
+// Delete a Booking with the specified id in the request
 exports.delete = (req, res) => {
-  Booking.remove(req.params.bookingId, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found booking with id ${req.params.bookingId}.`
+    const id = req.query.id;
+
+    Booking.destroy({
+        where: { id: id }
+    })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "Booking was deleted successfully!"
+                });
+            } else {
+                res.send({
+                    message: `Cannot delete Booking with id=${id}. Maybe Booking was not found!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Could not delete Booking with id=" + id
+            });
         });
-      } else {
-        res.status(500).send({
-          message: "Could not delete booking with id " + req.params.bookingId
-        });
-      }
-    } else res.send({ message: `booking was deleted successfully!` });
-  });
 };
 
-// Delete all bookings from the database.
+// Delete all Bookings from the database.
 exports.deleteAll = (req, res) => {
-  Booking.removeAll((err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all bookings."
-      });
-    else res.send({ message: `All bookings were deleted successfully!` });
-  });
+    Booking.destroy({
+        where: {},
+        truncate: false
+    })
+        .then(nums => {
+            res.send({ message: `${nums} Bookings were deleted successfully!` });
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while removing all bookings."
+            });
+        });
 };
-
