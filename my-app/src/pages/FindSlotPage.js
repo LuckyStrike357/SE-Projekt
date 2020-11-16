@@ -96,8 +96,8 @@ export default class FindSlotPage extends Component {
             const result = await fetch(url);
             if (result.ok) {
                 const body = await result.json();
-                timeslot.free = 20 - body.count;
-                //timeslot.free = timeslot.capacity - body.count;
+                timeslot.free = timeslot.capacity - body.count;
+                
                 if (timeslot.free > 0) {
                     checkedTimeslots.push(timeslot);
                 }
