@@ -19,16 +19,10 @@ export default class DataFormPage extends Component {
     componentDidMount() {
         //fetch timeslot data for given id
         var timeslotID;
-        console.log("this.props.location.data", this.props.location.data)
-        if (this.props.location.data) {
-            this.setState({ timeslotID: this.props.location.data });
-            timeslotID = this.props.location.data;
-        } else {
-            //only for testing purposes!!! Need to find a way to save props during reload
-            this.setState({ timeslotID: 1 });
-            timeslotID = 1;
-        }
-        this.fetchTimeslotData(timeslotID);
+        console.log("history.location.state.timeslot_id;", history.location.state.timeslot_id)
+        
+        this.setState({ timeslotID: history.location.state.timeslot_id });
+        this.fetchTimeslotData(history.location.state.timeslot_id);
     }
 
     createVisitor = async (data) => {
@@ -126,7 +120,7 @@ export default class DataFormPage extends Component {
                 var successfulBooking = await this.createBooking();
                 //4. Route to next Page
                 if (successfulBooking)
-                    history.push({ pathname: '/bookingCode', data: this.state.booking.id });
+                    history.push({ pathname: '/bookingCode',  state : {booking_id: this.state.booking.id} });
             }
         } else {
             //no capacity available
