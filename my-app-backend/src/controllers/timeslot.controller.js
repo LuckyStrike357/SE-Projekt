@@ -84,21 +84,21 @@ exports.findByDate = (req, res) => {
         });
 };
 
+// Retrieve booking count of specific timeslot
 exports.findAndCount = (req, res) => {
 
     let Booking = db.booking;
     let id = req.query.id
 
-    Booking.findAndCountAll({ where: { timeslotId: id } })
-        .then(data => {
-            res.send(data);
+    Booking.count({ where: { timeslotId: id } })
+        .then(count => {
+            res.send({ count: count });
         })
         .catch(err => {
             res.status(500).send({
                 message: "Error retrieving timeslots with id=" + id
             });
         });
-
 }
 
 // Update a Timeslot by the id in the request
