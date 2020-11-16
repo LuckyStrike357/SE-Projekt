@@ -29,6 +29,9 @@ export default class DataFormPage extends Component {
         var url = `/visitors`;
         const result = await fetch(url, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', 'Accept': 'application/json'
+            },
             body: JSON.stringify(data)
         });
         if (result.ok) {
