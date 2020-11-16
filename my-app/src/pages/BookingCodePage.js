@@ -27,7 +27,7 @@ export default class BookingCodePage extends Component {
                 <div className="QRCode">
 
                     <QRCode
-                        value={"this.state.bookingCode"}
+                        value={"http://ec2-54-93-73-128.eu-central-1.compute.amazonaws.com:3000/bookings/id="+this.state.bookingCode.toString()}
                         size={128}
                         bgColor={"#ffffff"}
                         fgColor={"#000000"}
