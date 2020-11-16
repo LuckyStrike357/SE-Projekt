@@ -147,7 +147,7 @@ export default class DataFormPage extends Component {
                     last_name: document.getElementById("Nachname").value,
                     street: document.getElementById("Strasse").value,
                     number: document.getElementById("Hausnummer").value,
-                    place: document.getElementById("Ort").value,
+                    city: document.getElementById("Ort").value,
                     postal_code: document.getElementById("PLZ").value,
                     telephone: document.getElementById("Telefon").value + document.getElementById("Telefonnummer").value,
                 }
