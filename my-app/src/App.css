@@ -101,6 +101,18 @@ body{
   font-weight: 500;
 }
 
+/*BookingCodePage*/
+
+.BookingCodePage{
+ margin-top:3rem;
+}
+
+.QRCode{
+  margin: 5rem;
+}
+
+/*CanclePage*/
+
 .background{
   -webkit-background-size: cover;
   -moz-background-size: cover;

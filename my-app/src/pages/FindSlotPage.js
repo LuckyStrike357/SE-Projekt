@@ -12,12 +12,50 @@ var errorTimeslot = "An diesem Tag stehen keine Zeiträume zur Buchung zur Verf�
 * send: selected Timeslot ID to DataFormPage,
 */
 
-export default class FindSlortPage extends Component {
-    
+class RenderTable extends Component {
+
+    onClickTableRow = (event) => {
+        const timeslotID = event.target.id;
+        console.log("Timeslot ID", timeslotID);
+        history.push({ pathname: '/dataForm', data: timeslotID });
+    }
+
+    render() {
+        console.log("renderTableData");
+        if (this.props.timeslots.length) {
+            return this.props.timeslots.map((timeslot) => {
+                const { id, start, end, free } = timeslot //destructuring
+                var startDate = new Date(start);
+                var startTime = startDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+                var endDate = new Date(end);
+                var endTime = endDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+
+                return (
+                    <tr key={id}>
+                        <td>{startTime}</td>
+                        <td>{endTime}</td>
+                        <td>{free}</td>
+                        <td><Button id={id} onClick={(Event) => this.onClickTableRow(Event)}>Buchen</Button></td>
+                    </tr>
+                )
+            })
+        } else {
+            return (
+                <tr >
+                    <td colSpan="5">{errorTimeslot}</td>
+                </tr>
+            )
+        }
+
+
+    }
+}
+
+export default class FindSlotPage extends Component {
+
     state = {
         date: new Date(),
         timeslots: [],
-        free: 0,
     }
 
     componentDidMount() {
@@ -37,72 +75,38 @@ export default class FindSlortPage extends Component {
         endDate.setDate(date.getDate() + 1);
         console.log("start fetch timeslot data per day");
         var url = `/timeslots/?start=` + date.toISOString().substring(0, 10) + `&end=` + endDate.toISOString().substring(0, 10);
-        console.log(url)
         const result = await fetch(url);
         if (result.ok) {
             const body = await result.json();
-            this.setState({ timeslots: body });
+            //loop over all timeslots and check capacity
+            this.fetchTimeslotBookings(body);
+
         } else {
             this.setState({ timeslots: [] });
             console.log("Error during fetchTimeslotsPerDay: ", result.status);
         }
     }
 
-    fetchTimeslotBookings = async (id, capacity) =>{
-        var url = `/timeslots/?id=`+id + `&count=true`;
-        const result = await fetch(url);
-        if (result.ok) {
-            const body = await result.json();
-            this.setState({free: capacity - body.bookings})
-        } else {
-            console.log("Error during fetchTimeslotBookings: ", result.status);
-        }
-    }
-
-    onClickTableRow = (event) => {
-        const timeslotID = event.target.id;
-        console.log("Timeslot ID", timeslotID);
-        history.push({ pathname: '/dataForm', data: timeslotID });
-    }
-
-    renderTableData = () => {
-        console.log("renderTableData");
-        if(this.state.timeslots.length){
-        return this.state.timeslots.map((timeslot, index) => {
-            const { id, start, end, capacity } = timeslot //destructuring
-            var startDate = new Date(start);
-            var startTime = startDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
-            var endDate = new Date(end);
-            var endTime = endDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
-
-            //check capcity
-            this.fetchTimeslotBookings(id, capacity);
-          
-            //need to find way to render conditionally to show free in table
-            if(this.state.free <= 0){
-                    return(
-                        <tr>
-                            <td colSpan="5">{errorTimeslot}</td>
-                        </tr>
-                    );
+    fetchTimeslotBookings = async (timeslots) => {
+        console.log("timeslots",timeslots)
+        var checkedTimeslots = [];
+        var that = this;
+        await timeslots.forEach(await async function (timeslot, index) {
+            var url = `/timeslots/?id=` + timeslot.id + `&count=true`;
+            const result = await fetch(url);
+            if (result.ok) {
+                const body = await result.json();
+                timeslot.free = 20 - body.count;
+                //timeslot.free = timeslot.capacity - body.count;
+                if (timeslot.free > 0) {
+                    checkedTimeslots.push(timeslot);
+                }
+            } else {
+                console.log("Error during fetchTimeslotBookings: ", result.status);
             }
-           
-            return (
-                <tr key={id}>
-                    <td>{startTime}</td>
-                    <td>{endTime}</td>
-                    <td><Button id={id} onClick={(Event) => this.onClickTableRow(Event)}>Buchen</Button></td>
-                </tr>
-            )
+            that.setState({ timeslots: checkedTimeslots });
+            console.log("checkedTimeslots",checkedTimeslots);
         })
-    }else{
-        return (
-            <tr >
-                <td colSpan="5">{errorTimeslot}</td>
-            </tr>
-        )
-    }
-
     }
 
     //HTMl Part of Page
@@ -123,11 +127,12 @@ export default class FindSlortPage extends Component {
                                 <tr>
                                     <th>Start</th>
                                     <th>Ende</th>
+                                    <th>Freie Plätze</th>
                                     <th>Buchen</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.renderTableData()}
+                                <RenderTable timeslots={this.state.timeslots}></RenderTable>
                             </tbody>
                         </Table>
                     </div>
