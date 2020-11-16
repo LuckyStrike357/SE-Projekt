@@ -10,7 +10,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING
         }, 
         number: {
-            type: Sequelize.INTEGER
+            type: Sequelize.STRING
         }, 
         city: {
             type: Sequelize.STRING
