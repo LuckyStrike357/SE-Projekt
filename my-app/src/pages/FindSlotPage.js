@@ -61,20 +61,25 @@ export default class FindSlotPage extends Component {
     componentDidMount() {
         //fetch timeslot data for today
         const today = new Date();
+        today.setHours(12,0,0,0);
         this.fetchTimeslotsPerDay(today);
     }
 
     onChange = (date) => {
+        date.setHours(12,0,0,0);
         this.setState({ date });
         //fetch timeslot data for selected date
         this.fetchTimeslotsPerDay(date);
     }
 
     fetchTimeslotsPerDay = async (date) => {
+   
         var endDate = new Date();
         endDate.setDate(date.getDate() + 1);
+        endDate.setHours(1,0,0,0);
         console.log("start fetch timeslot data per day");
         var url = `/timeslots/?start=` + date.toISOString().substring(0, 10) + `&end=` + endDate.toISOString().substring(0, 10);
+        console.log(url)
         const result = await fetch(url);
         if (result.ok) {
             const body = await result.json();
@@ -90,6 +95,7 @@ export default class FindSlotPage extends Component {
     fetchTimeslotBookings = async (timeslots) => {
         console.log("timeslots",timeslots)
         var checkedTimeslots = [];
+        this.setState({ timeslots: [] });
         var that = this;
         await timeslots.forEach(await async function (timeslot, index) {
             var url = `/timeslots/?id=` + timeslot.id + `&count=true`;
