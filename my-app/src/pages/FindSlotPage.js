@@ -17,7 +17,7 @@ class RenderTable extends Component {
     onClickTableRow = (event) => {
         const timeslotID = event.target.id;
         console.log("Timeslot ID", timeslotID);
-        history.push({ pathname: '/dataForm', data: timeslotID });
+        history.push({ pathname: '/dataForm',state: {timeslot_id:timeslotID} });
     }
 
     render() {

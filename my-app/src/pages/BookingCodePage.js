@@ -6,8 +6,8 @@ import history from './../history';
 export default class BookingCodePage extends Component {
 
     componentDidMount(){
-        this.setState({bookingCode:this.props.location.data});
-        console.log(this.props.location.data);
+        this.setState({bookingCode:history.location.state.booking_id});
+        console.log(history.location.state.booking_id);
       
     }
     
