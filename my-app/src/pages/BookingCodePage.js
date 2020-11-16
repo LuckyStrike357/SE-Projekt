@@ -5,29 +5,29 @@ import history from './../history';
 
 export default class BookingCodePage extends Component {
 
-    constructor(props){
-        super(props);
-        console.log(this.props.location.data);
+    componentDidMount(){
+        this.setState({bookingCode:history.location.state.booking_id});
+        console.log(history.location.state.booking_id);
+      
     }
     
 
     state = {
-
+        bookingCode: 0,
     }
 
-    getDetails() {
-
-    }
 
     render() {
         return (
             <React.Fragment>
-                <h1>Booking Code Page!</h1>
+                
+                <h1 className="BookingCodePage">Ihr Buchung war erfolgreich!</h1>
+                <h2>Hier ist ihr QRCode!</h2>
 
-                <div className="textboxes">
+                <div className="QRCode">
 
                     <QRCode
-                        value={"http://picturesofpeoplescanningqrcodes.tumblr.com/"}
+                        value={"this.state.bookingCode"}
                         size={128}
                         bgColor={"#ffffff"}
                         fgColor={"#000000"}
@@ -43,9 +43,11 @@ export default class BookingCodePage extends Component {
                             excavate: true,
                         }}
                     />
+                    <p>{this.state.bookingCode}</p>
                 </div>
+                
                 <Button variant="primary" onClick={() => history.push({ pathname: '/' })}>Home</Button>
-
+               
             </React.Fragment >
         );
     }

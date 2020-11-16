@@ -5,16 +5,6 @@ import history from './../history';
 import { Form, Col, } from "react-bootstrap";
 
 export default class DataFormPage extends Component {
-    constructor(props) {
-        super(props);
-        console.log("props.location.data: ", this.props.location.data);
-        if (this.props.location.data) {
-            this.setState({ timeslotID: this.props.location.data });
-        } else {
-            //only for testing purposes!!! Need to find a way to save props during reload
-            this.setState({ timeslotID: 1 });
-        }
-    }
 
     state = {
         bookingCode: "",
@@ -28,33 +18,39 @@ export default class DataFormPage extends Component {
 
     componentDidMount() {
         //fetch timeslot data for given id
-        var timeslotID = this.props.location.data;
-        this.fetchTimeslotData(timeslotID);
-        console.log("TimeslotID", this.props.location.data);
+        var timeslotID;
+        console.log("history.location.state.timeslot_id;", history.location.state.timeslot_id)
+        
+        this.setState({ timeslotID: history.location.state.timeslot_id });
+        this.fetchTimeslotData(history.location.state.timeslot_id);
     }
 
     createVisitor = async (data) => {
         var url = `/visitors`;
         const result = await fetch(url, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', 'Accept': 'application/json'
+            },
             body: JSON.stringify(data)
         });
         if (result.ok) {
             const body = await result.json();
-            console.log(body);
+            console.log("Successfully created visitor: ", body);
             this.setState({ visitor: body });
+            return true;
         } else {
             console.log("Error during createVisitor: ", result.status);
+            return false;
         }
-        console.log(result);
     }
 
     fetchTimeslotBookings = async (id) => {
-        var url = `/timeslotbookings/?id=` + id + `&count`;
+        var url = `/timeslots/?id=` + id + `&count=true`;
         const result = await fetch(url);
         if (result.ok) {
             const body = await result.json();
-            if (this.state.timeslot.capacity - body.bookings <= 0) {
+            if (this.state.timeslot.capacity - body.count <= 0) {
                 //full
                 return false;
             } else {
@@ -70,33 +66,40 @@ export default class DataFormPage extends Component {
     fetchTimeslotData = async (id) => {
 
         console.log("start fetch timeslot data");
-        var url = `/timeslots/?id=` + id;
-        console.log(url)
-        const result = await fetch(url);
-        if (result.ok) {
-            const body = await result.json();
-            this.setState({ timeslot: body });
-            console.log(body);
-        } else {
-            this.setState({ timeslot: {} });
-            console.log("Error during fetchTimeslotsPerDay: ", result.status);
+        if (id) {
+            var url = `/timeslots/?id=` + id;
+            const result = await fetch(url);
+            if (result.ok) {
+                const body = await result.json();
+                this.setState({ timeslot: body });
+                console.log("Succesfully fetched timeslot: ", body);
+            } else {
+                this.setState({ timeslot: {} });
+                console.log("Error during fetchTimeslotsPerDay: ", result.status);
+            }
         }
     }
 
     createBooking = async () => {
         console.log("start create booking");
         var url = `/bookings`;
+
         var data = {
-            timeslotId: this.state.timeslot.id,
             visitorId: this.state.visitor.id,
+            timeslotId: this.state.timeslot.id,
         }
-        console.log(url)
+
+
         const result = await fetch(url, {
             method: 'POST',
-            body: JSON.stringify(data)
+            headers: {
+                'Content-Type': 'application/json', 'Accept': 'application/json'
+            },
+            body: JSON.stringify(data),
         });
         if (result.ok) {
             const body = await result.json();
+            console.log("Succesffully created booking: ", body);
             this.setState({ booking: body });
             return true;
         } else {
@@ -106,22 +109,25 @@ export default class DataFormPage extends Component {
     }
 
     bookSlot = async (data) => {
-        console.log("bookslot");
+       
         //1. Check Capacity
-        console.log("state", this.state)
         var capacity = await this.fetchTimeslotBookings(this.state.timeslot.id);
 
         if (capacity) {
             //2. Create Visitor
-            await this.createVisitor(data);
-            //3. Create Booking
-            var successfulBooking = await this.createBooking();
-            console.log(successfulBooking);
-            //4. Route to next Page
-            if (successfulBooking)
-                history.push({ pathname: '/bookingCode', data: this.state.booking.id });
+            var successfullVisitor = await this.createVisitor(data);
+            if (!successfullVisitor) {
+                alert("Please send form again");
+            } else {
+                //3. Create Booking
+                var successfulBooking = await this.createBooking();
+                //4. Route to next Page
+                if (successfulBooking)
+                    history.push({ pathname: '/bookingCode',  state : {booking_id: this.state.booking.id} });
+            }
         } else {
             //no capacity available
+            alert("No capacity available");
         }
     }
 
@@ -131,11 +137,11 @@ export default class DataFormPage extends Component {
             console.log("handleSubmit");
             const form = event.currentTarget;
             if (form.checkValidity() === false) {
-                console.log("if")
+                
                 event.preventDefault();
                 event.stopPropagation();
             } else {
-                console.log("else")
+               
                 event.preventDefault();
                 event.stopPropagation();
                 const data = {
@@ -148,7 +154,7 @@ export default class DataFormPage extends Component {
                     postal_code: document.getElementById("PLZ").value,
                     telephone: document.getElementById("Telefon").value + document.getElementById("Telefonnummer").value,
                 }
-                console.log(data)
+                console.log("Vistor data: ",data)
                 this.bookSlot(data);
             }
             this.setState({ validated: true });
