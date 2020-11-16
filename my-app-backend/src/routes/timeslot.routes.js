@@ -18,9 +18,9 @@ module.exports = app => {
     } else if (id && !count) {
       timeslots.findById(req, res)
 
-      // retrieve single timeslot by id and count existing bookings
+      // Count bookings of specified timeslot
     } else if (id && count) {
-      timeslots.findAndCount(req, res)
+      timeslots.countBookings(req, res)
 
       // retrieve timeslot(s) by date range
     } else if (start && end) {
