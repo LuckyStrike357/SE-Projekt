@@ -2,14 +2,13 @@
  * Import models
  */
 const db = require("../models");
-const timeslotModel = require("../models/timeslot.model");
 var Timeslot = db.timeslot;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Timeslot
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.start || !req.body.end) {
+    if (!req.body) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
@@ -19,7 +18,8 @@ exports.create = (req, res) => {
     // Create a Timeslot
     const timeslot = {
         start: req.body.start,
-        end: req.body.end
+        end: req.body.end,
+        capacity: req.body.capacity
     };
 
     // Save Timeslot in the database
