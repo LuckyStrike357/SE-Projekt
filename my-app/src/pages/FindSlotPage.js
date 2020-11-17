@@ -92,12 +92,12 @@ export default class FindSlotPage extends Component {
         }
     }
 
-    fetchTimeslotBookings = async (timeslots) => {
-        console.log("timeslots",timeslots)
+    fetchTimeslotBookings = async (timeslotsdata) => {
+        console.log("timeslots",timeslotsdata)
         var checkedTimeslots = [];
         this.setState({ timeslots: [] });
         var that = this;
-        await timeslots.forEach(await async function (timeslot, index) {
+        await timeslotsdata.forEach(await async function (timeslot, index) {
             var url = `/timeslots/?id=` + timeslot.id + `&count=true`;
             const result = await fetch(url);
             if (result.ok) {
