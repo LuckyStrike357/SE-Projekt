@@ -52,6 +52,7 @@ const run = async () => {
   await db.user.create({
     first_name: "Test",
     last_name: "Testuser",
+    username: "testuser",
     password: bcrypt.hashSync("password123", 8)
   })
 

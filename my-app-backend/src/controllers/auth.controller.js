@@ -14,7 +14,7 @@ var config = require('../config/auth.config'); // get config file
 // Login
 exports.login = (req, res) => {
 
-    User.findOne({ where: { id: req.body.id } })
+    User.findOne({ where: { username: req.body.username } })
         .then(function (user, err) {
             if (err) return res.status(500).send('Error on the server.');
             if (!user) return res.status(404).send('No user found.');
@@ -49,6 +49,7 @@ exports.register = (req, res) => {
     User.create({
         first_name: req.body.first_name,
         last_name: req.body.last_name,
+        username: req.body.username,
         password: hashedPassword
     }).then(function (user, err) {
         if (err) return res.status(500).send("There was a problem registering the user`.");
