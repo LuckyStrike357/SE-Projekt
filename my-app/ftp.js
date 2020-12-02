@@ -2,7 +2,7 @@ var Deploy = require('ftp-deploy');
 var ftpDeploy = new Deploy();
  
 var config = {
-    host : "ec2-54-93-73-128.eu-central-1.compute.amazonaws.com",
+    host : "ec2-3-127-149-47.eu-central-1.compute.amazonaws.com",
     user : "ubuntu",
     password : "ftp123",
     port: 21,
