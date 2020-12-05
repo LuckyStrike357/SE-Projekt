@@ -16,7 +16,7 @@ export default class AdminLogInPage extends Component {
     render() {
         return(
 
-            <div className="CanclePage">
+            <div className="Admin">
                 Test 
             </div>
         );
