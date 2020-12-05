@@ -16,8 +16,8 @@ export default class AdminLogInPage extends Component {
     render() {
         return(
 
-            <div className="Admin">
-                Test 
+            <div className="AdminLogin">
+                Bitten melden Sie sich mit Ihren Anmeldedaten ein. 
             </div>
         );
     }

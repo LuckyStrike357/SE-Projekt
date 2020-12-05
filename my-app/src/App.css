@@ -140,3 +140,10 @@ body{
 .Cancle-text-muted{
   margin: 1%;
 }
+
+/*AdminLogin*/
+
+.AdminLogin{
+  margin: 2%;
+  font-size: xx-large;
+}
