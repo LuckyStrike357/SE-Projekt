@@ -141,9 +141,38 @@ body{
   margin: 1%;
 }
 
+
+/*Admin Navigation*/
+.adminnavigation ul{
+  background-color: rgb(98,212,223,0.5) ; 
+
+}
+
+.adminnavigation ul li{
+  display: inline-block;
+  margin:auto;
+  padding: 2rem;
+  color: white; 
+
+
+}
+
+.adminnavigation ul li a{
+  color: white; 
+  opacity: 1;
+}
+
+/*Admin Timeslot*/
+
+.timeslotscheduler{
+  margin-top: 2rem;
+  margin-left: 2rem; 
+  margin-right: 2rem;
+
 /*AdminLogin*/
 
 .AdminLogin{
   margin: 2%;
   font-size: xx-large;
+
 }

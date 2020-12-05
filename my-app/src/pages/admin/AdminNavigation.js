@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 
 const AdminNavigation = () => (
     <React.Fragment>
-        <h1>Admin Navigation!</h1>
-        <nav>
+        <nav className="adminnavigation">
             <ul>
                 <li>
                     <Link to="/admin/start">Start</Link>
