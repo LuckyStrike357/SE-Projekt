@@ -137,14 +137,29 @@ body {
     margin: 2.5%;
 }
 
-.CancleBookingCode {
-    margin-left: 35%;
-    margin-right: 35%;
-    margin-bottom: 2%;
-}
-
 .Cancle-text-muted {
     margin: 1%;
+}
+
+@media (max-width:1000px) {
+    .CancleBookingCode {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+}
+
+@media (min-width:1000px) and (max-width:1500px) {
+    .CancleBookingCode {
+        margin-left: 15rem;
+        margin-right: 15rem;
+    }
+}
+
+@media (min-width:1500px) {
+    .CancleBookingCode {
+        margin-left: 30rem;
+        margin-right: 30rem;
+    }
 }
 
 

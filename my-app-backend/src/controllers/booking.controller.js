@@ -52,7 +52,7 @@ exports.findAll = (req, res) => {
 
 // Find a single Booking with an id
 exports.findOne = (req, res) => {
-    const id = req.query.id;
+    const id = req.params.bookingId;
 
     Booking.findByPk(id)
         .then(data => {
@@ -68,7 +68,7 @@ exports.findOne = (req, res) => {
 
 // Update a Booking by the id in the request
 exports.update = (req, res) => {
-    const id = req.query.id;
+    const id = req.params.bookingId;
 
     Booking.update(req.body, {
         where: { id: id }
@@ -92,28 +92,63 @@ exports.update = (req, res) => {
 };
 
 // Delete a Booking with the specified id in the request
-exports.delete = (req, res) => {
-    const id = req.query.id;
+exports.delete = async (req, res) => {
+    const id = req.params.bookingId;
+    const email = req.body.email;
+    const date = req.body.date;
 
-    Booking.destroy({
-        where: { id: id }
-    })
-        .then(num => {
-            if (num == 1) {
-                res.send({
-                    message: "Booking was deleted successfully!"
+    //check if given email and date are associated with the booking
+    let Timeslot = db.timeslot;
+    let Visitor = db.visitor;
+
+    //include associated tables
+    const booking = await Booking.findOne({
+        where: {
+            id: id
+        },
+        include: [
+            { model: Timeslot },
+            { model: Visitor }
+        ]
+    });
+
+    //if there is a booking with the id
+    if (booking !== null) {
+        const associatedVisitorMail = booking.visitor.email;
+        const associatedTimeslotDate = new Date(booking.timeslot.start);
+
+        const comparableDate = associatedTimeslotDate.getFullYear() + "-" + (associatedTimeslotDate.getMonth() + 1) + "-" + associatedTimeslotDate.getDate()
+
+        if (associatedVisitorMail === email && comparableDate === date) {
+            Booking.destroy({
+                where: { id: id }
+            })
+                .then(num => {
+                    if (num == 1) {
+                        res.send({
+                            message: "Booking was deleted successfully!"
+                        });
+                    } else {
+                        res.send({
+                            message: `Cannot delete Booking with id=${id}. Maybe Booking was not found!`
+                        });
+                    }
+                })
+                .catch(err => {
+                    res.status(500).send({
+                        message: "Could not delete Booking with id=" + id
+                    });
                 });
-            } else {
-                res.send({
-                    message: `Cannot delete Booking with id=${id}. Maybe Booking was not found!`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Could not delete Booking with id=" + id
-            });
+
+        } else {
+            res.status(403).send({ auth: false, message: 'Wrong data provided.' });
+        }
+        
+    } else {
+        res.status(500).send({
+            message: "Error retrieving Booking with id=" + id
         });
+    }
 };
 
 // Delete all Bookings from the database.
