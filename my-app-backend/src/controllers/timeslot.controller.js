@@ -103,7 +103,7 @@ exports.countBookings = (req, res) => {
 
 // Update a Timeslot by the id in the request
 exports.update = (req, res) => {
-    const id = req.query.id;
+    const id = req.params.timeslotId;
 
     Timeslot.update(req.body, {
         where: { id: id }
@@ -128,7 +128,7 @@ exports.update = (req, res) => {
 
 // Delete a Timeslot with the specified id in the request
 exports.delete = (req, res) => {
-    const id = req.query.id;
+    const id = req.params.timeslotId;
 
     Timeslot.destroy({
         where: { id: id }
