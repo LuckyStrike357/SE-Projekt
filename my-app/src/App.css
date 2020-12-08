@@ -227,7 +227,18 @@
     margin-top: 1rem;
   }
   
-  
+  /*AdminCheckQR*/ 
+
+  .QRCheckPassword{
+    margin-top: 5rem;
+    margin-left: 30%;
+    margin-right: 30%;
+  }
+
+.Header_QRCheck{
+  margin: 1%;
+  font-size: xx-large;
+}
   
   
   
