@@ -58,7 +58,7 @@ exports.findAll = (req, res) => {
 
 // Find a single Visitor with an id
 exports.findOne = (req, res) => {
-    const id = req.query.id;
+    const id = req.params.visitorId;
 
     Visitor.findByPk(id)
         .then(data => {
@@ -75,7 +75,7 @@ exports.findOne = (req, res) => {
 
 // Update a Visitor by the id in the request
 exports.update = (req, res) => {
-    const id = req.query.id;
+    const id = req.params.visitorId;
 
     Visitor.update(req.body, {
         where: { id: id }
@@ -100,7 +100,7 @@ exports.update = (req, res) => {
 
 // Delete a Visitor with the specified id in the request
 exports.delete = (req, res) => {
-    const id = req.query.id;
+    const id = req.params.visitorId;
 
     Visitor.destroy({
         where: { id: id }

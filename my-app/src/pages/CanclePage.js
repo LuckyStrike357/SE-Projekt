@@ -1,37 +1,115 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
-import { Form, Col, } from "react-bootstrap";
-import history from './../history';
-
-const CanclePage = () => (
-    <React.Fragment>
-        <h1>Cancle Page!</h1>
-    </React.Fragment>
-)
+import { Form, Col, } from 'react-bootstrap';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 export default class CanclePageClass extends Component {
 
+    state = {
+        validated: false
+    }
+
+    createNotification = (type) => {
+
+        console.log('createNotification');
+        switch (type) {
+            case 'info':
+                NotificationManager.info('Info message');
+                break;
+            case 'success':
+                NotificationManager.success('Buchung erfolgreich gelöscht!', 'Vorgang abgeschlossen');
+                break;
+            case 'warning':
+                NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
+                break;
+            case 'error':
+                NotificationManager.error('Fehler beim Löschen', 'Vorgang abgebrochen!', 5000);
+                break;
+        }
+    }
+
+    deleteBooking = async (data) => {
+        console.log("start delete booking");
+
+        var body = {
+            email: data.email,
+            date: data.bookingDate
+        }
+
+        var url = `/bookings/` + data.bookingId;
+
+        const result = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json', 'Accept': 'application/json'
+            },
+            body: JSON.stringify(body),
+        });
+
+        if (result.ok) {
+            //Success
+            this.createNotification('success')
+        } else {
+            //Error
+            this.createNotification('error')
+        }
+
+        //Clear form
+        const form = document.getElementById('dataForm');
+        form.reset();
+        this.setState({ validated: false });
+    }
+
 
     render() {
+
+        const handleSubmit = (event) => {
+            const form = event.currentTarget;
+            if (form.checkValidity() === false) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+            } else {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                let day = document.getElementById("Tag").value;
+                let month = document.getElementById("Monat").value
+                let year = document.getElementById("Jahr").value
+
+                const data = {
+                    bookingId: document.getElementById("Buchungscode").value,
+                    email: document.getElementById("Email").value,
+                    bookingDate: year + "-" + month + "-" + day
+                }
+
+                console.log("Booking data: ", data)
+                this.deleteBooking(data);
+            }
+
+            this.setState({ validated: true });
+
+        }
+
         return (
             <div className="CanclePage">
                 <h1 className="DeleteHeader">Buchung stornieren</h1>
 
-                    <p id="Infotext">
+                <p id="Infotext">
                     Bitte geben Sie ihren Buchungsdaten ein, um ihre Buchung zu stornieren. <br />
                     Wir löschen nur die den Buchungscode betreffende Reservierung.
-                    </p>
+                </p>
 
-                    <Form className="CancleBookingCode">
-                        <Form.Group controlId="formBasicPassword" className="CancleGroup">
-                            <Form.Control type="password" placeholder="Buchungscode" />
-                            <Form.Text className="Cancle-text-muted">
-                                Buchungscode vergessen?
-                        </Form.Text>
+                <div className="CancleBookingCode">
+                    <Form className="CancleBookingForm" id="dataForm" noValidate validated={this.state.validated} onSubmit={handleSubmit}>
+                        <Form.Group controlId="Buchungscode" className="CancleGroup">
+                            <Form.Control required type="text" placeholder="Buchungscode" />
                         </Form.Group>
 
-                        <Form.Group controlId="formBasicPassword" className="CancleGroup">
-                            <Form.Control type="email" placeholder="Email" />
+                        <Form.Group controlId="Email" className="CancleGroup">
+                            <Form.Control required type="email" placeholder="Email" />
                         </Form.Group>
 
                         <Form.Row>
@@ -87,18 +165,19 @@ export default class CanclePageClass extends Component {
                                 </Form.Control>
                             </Form.Group>
                             <Form.Group as={Col}>
-                                <Form.Control required id="Jahr" type="Jahr" placeholder="Jahr" />
+                                <Form.Control required id="Jahr" type="text" placeholder="Jahr" />
                             </Form.Group>
                         </Form.Row>
-                        
+
                         <Button variant="primary" type="submit">
                             Buchung stornieren
-                    </Button>
+                        </Button>
+
                     </Form>
 
+                </div>
+                <NotificationContainer />
             </div>
-
-
         );
     }
 }

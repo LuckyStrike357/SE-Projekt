@@ -35,6 +35,7 @@ db.user = require("./user.model")(sequelize, Sequelize);
 
 // Each booking has one visitor
 db.visitor.hasOne(db.booking);
+db.booking.belongsTo(db.visitor);
 
 //Timeslot has many bookings but a booking has only one timeslot 
 db.timeslot.hasMany(db.booking);
