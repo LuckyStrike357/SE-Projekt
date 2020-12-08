@@ -196,3 +196,18 @@ body {
     margin: 2%;
     font-size: xx-large;
 }
+
+/*AdminCheckQR*/ 
+
+@media (min-width:100px) {
+  .QRCheckPassword{
+    margin-top: 5rem;
+    margin-left: 40rem;
+    margin-right: 40rem;
+  }
+}
+
+.Header_QRCheck{
+  margin: 1%;
+  font-size: xx-large;
+}
