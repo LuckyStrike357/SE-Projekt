@@ -1,7 +1,7 @@
 module.exports = app => {
   const bookings = require("../controllers/booking.controller.js");
   const VerifyToken = require('../middleware/verifyToken.js');
-  
+
   // Create a new booking
   app.post("/bookings", bookings.create);
 
@@ -14,9 +14,10 @@ module.exports = app => {
   // Update a booking with bookingId
   app.put("/bookings/:bookingId", VerifyToken, bookings.update);
 
-  // Delete a booking with bookingId
+  // Delete a booking with bookingId (authorization by email and booking date)
   app.delete("/bookings/:bookingId", bookings.delete);
 
   // Delete all bookings
   app.delete("/bookings", VerifyToken, bookings.deleteAll);
+
 };
