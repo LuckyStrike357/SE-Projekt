@@ -32,8 +32,8 @@ const run = async () => {
   })
 
   let timelot1 = await db.timeslot.create({
-    start: "2020-11-15 08:00:00",
-    end: "2020-11-15 09:59:59",
+    start: "2020-10-15 08:00:00",
+    end: "2020-10-15 09:59:59",
     capacity: 100
   })
 
