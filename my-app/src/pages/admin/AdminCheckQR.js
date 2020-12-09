@@ -22,7 +22,7 @@ export default class AdminCheckQRClass extends Component {
                 <Form>
                     <Form.Group controlId="formGroupPassword" className="QRCheckPassword">
                         <Form.Label>QR Code:</Form.Label>
-                        <Form.Control type="password" placeholder="Password" />
+                        <Form.Control type="password" placeholder="Code" />
                     </Form.Group>
 
                     <Button variant="primary" type="submit">
