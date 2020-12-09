@@ -52,7 +52,7 @@ export default class AdminLogInPage extends Component {
       const body = await result.json();
       this.setState({ auth: body })
       history.push({ pathname: '/admin/start', state: { token: this.state.auth.token } });
-      
+
     } else {
       //Error
       const body = await result.json();
@@ -96,23 +96,25 @@ export default class AdminLogInPage extends Component {
     }
 
     return (
-
       <div className="AdminLogin">
-        Bitte melden Sie sich mit Ihren Anmeldedaten an.
+        <img src={logo} className="adminLoginLogo" alt="adminLoginLogo" />
+        <div className="AdminLoginHeader">
+          Bitte melden Sie sich mit Ihren Anmeldedaten an.
         <div>
-          <Form id="dataForm" className="Admindaten" noValidate validated={this.state.validated} onSubmit={handleSubmit}>
-            <Form.Group controlId="formGroupId">
-              <Form.Label>Admin ID</Form.Label>
-              <Form.Control required type="id" placeholder="ID eingeben" />
-            </Form.Group>
-            <Form.Group controlId="formGroupPassword">
-              <Form.Label>Passwort</Form.Label>
-              <Form.Control required type="password" placeholder="Passwort" />
-            </Form.Group>
-            <Button variant="primary" type="submit">Anmelden</Button>
-          </Form>
+            <Form id="dataForm" className="Admindaten" noValidate validated={this.state.validated} onSubmit={handleSubmit}>
+              <Form.Group controlId="formGroupId">
+                <Form.Label>Admin ID</Form.Label>
+                <Form.Control required type="id" placeholder="ID eingeben" />
+              </Form.Group>
+              <Form.Group controlId="formGroupPassword">
+                <Form.Label>Passwort</Form.Label>
+                <Form.Control required type="password" placeholder="Passwort" />
+              </Form.Group>
+              <Button variant="primary" type="submit">Anmelden</Button>
+            </Form>
+          </div>
+          <NotificationContainer />
         </div>
-        <NotificationContainer />
       </div>
 
 
