@@ -7,6 +7,10 @@ module.exports = (sequelize, Sequelize) => {
             defaultValue: Sequelize.UUIDV4,
             allowNull: false,
             primaryKey: true
+        },
+        scanned: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false
         }
     });
 
