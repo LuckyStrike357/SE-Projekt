@@ -79,6 +79,7 @@ require("./routes/visitor.routes.js")(app);
 require("./routes/booking.routes.js")(app);
 require("./routes/timeslot.routes.js")(app);
 require("./routes/auth.routes.js")(app);
+require("./routes/export.routes.js")(app);
 
 
 // set port, listen for requests
