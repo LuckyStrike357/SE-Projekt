@@ -15,7 +15,7 @@ module.exports = app => {
   app.put("/bookings/:bookingId", VerifyToken, bookings.update);
 
   // Delete a booking with bookingId
-  app.delete("/bookings/:bookingId", VerifyToken, bookings.delete);
+  app.delete("/bookings/:bookingId", bookings.delete);
 
   // Delete all bookings
   app.delete("/bookings", VerifyToken, bookings.deleteAll);

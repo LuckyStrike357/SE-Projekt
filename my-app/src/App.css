@@ -1,178 +1,279 @@
 .App {
-  text-align: center;
-}
-
-body{
-  background: linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.7)), url(Mundschutz.jpg) no-repeat center center fixed;
-  background-size: cover;
-  font-family: crete;
-  color: white; 
-}
-
-@font-face{
-  font-family: 'Crete';
-  src: url(CreteRound-Regular.ttf);
-  font-style: normal;
-}
-
-/*StartPage*/
-.logo{
-  display: inline-block;
-  max-height: 120px;
-  margin: 1%;
- }
-
-.card-deck{
-  color:black;
-  position: center;
-  align-content: center;
-  margin-top: 4%;
-  margin-bottom: 4%;
-  margin-left:12% ;
-  margin-right: 12%;
-}
-
-/*FindSlotPage*/
-
-@media (max-width:1000px){
-  .findDay{
-    display: block;
-    margin: auto;
-    padding: 1rem;
-    width: 100%; 
-    max-width: 350px;
-    min-width:350px;
+    text-align: center;
   }
-  .findTime{
-    display:block; 
-    margin: auto;
-    padding:1rem; 
-    width:100%;
+  
+  body{
+    background: linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.7)), url(Mundschutz.jpg) no-repeat center center fixed;
+    background-size: cover;
+    font-family: crete;
     color: white; 
   }
-}
-
-@media (min-width:1000px){
-  .findDay{
-    display:inline-block;
-    width: 70%; 
-    padding: 2rem;
-    max-width: 350px;
-    min-width:350px;
+  
+  @font-face{
+    font-family: 'Crete';
+    src: url(CreteRound-Regular.ttf);
+    font-style: normal;
   }
-  .findTime{
-    display:inline-block; 
-    margin: auto;
-    padding: 2rem;
-    width:70%;
+  
+  /*StartPage*/
+  .logo{
+    display: inline-block;
+    max-height: 120px;
+    margin: 1%;
+   }
+  
+  .card-deck{
+    color:black;
+    position: center;
+    align-content: center;
+    margin-top: 4%;
+    margin-bottom: 4%;
+    margin-left:12% ;
+    margin-right: 12%;
+  }
+  
+  /*FindSlotPage*/
+  .App {
+    text-align: center;
+  }
+  
+  body{
+    background: linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.7)), url(Mundschutz.jpg) no-repeat center center fixed;
+    background-size: cover;
+    font-family: crete;
     color: white; 
   }
-  .wrapFind{
-    display:flex;
+  
+  @font-face{
+    font-family: 'Crete';
+    src: url(CreteRound-Regular.ttf);
+    font-style: normal;
   }
-}
-
-/*DataFormPage*/
-
-@media (max-width:1000px){
+  
+  /*StartPage*/
+  .logo{
+    display: inline-block;
+    max-height: 120px;
+    margin: 1%;
+   }
+  
+  .card-deck{
+    color:black;
+    position: center;
+    align-content: center;
+    margin-top: 4%;
+    margin-bottom: 4%;
+    margin-left:12% ;
+    margin-right: 12%;
+  }
+  
+  /*FindSlotPage*/
+  
+  @media (max-width:1000px){
+    .findDay{
+      display: block;
+      margin: auto;
+      padding: 1rem;
+      width: 100%; 
+      max-width: 350px;
+      min-width:350px;
+    }
+    .findTime{
+      display:block; 
+      margin: auto;
+      padding:1rem; 
+      width:100%;
+      color: white; 
+    }
+  }
+  
+  @media (min-width:1000px){
+    .findDay{
+      display:inline-block;
+      width: 70%; 
+      padding: 2rem;
+      max-width: 350px;
+      min-width:350px;
+    }
+    .findTime{
+      display:inline-block; 
+      margin: auto;
+      padding: 2rem;
+      width:70%;
+      color: white; 
+    }
+    .wrapFind{
+      display:flex;
+    }
+  }
+  
+  /*DataFormPage*/
+  
+  @media (max-width:1000px){
+    .textboxes {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+  }
+  
+  @media (min-width:1000px) and (max-width:1500px){
+    .textboxes {
+      margin-left: 15rem;
+      margin-right: 15rem;
+    }
+  }
+  
+  @media (min-width:1500px){
   .textboxes {
-    margin-left: 1rem;
-    margin-right: 1rem;
+    margin-left: 30rem;
+    margin-right: 30rem;
   }
-}
-
-@media (min-width:1000px) and (max-width:1500px){
-  .textboxes {
-    margin-left: 15rem;
-    margin-right: 15rem;
   }
-}
+  
+  .Header_DataForm{
+    margin: 30px;
+    font-size: x-large;
+    font-weight: 500;
+  }
+  
+  /*BookingCodePage*/
+  
+  .BookingCodePage{
+   margin-top:3rem;
+  }
+  
+  .QRCode{
+    margin: 5rem;
+  }
+  
+  /*CanclePage*/
+  
+  .background{
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    margin: 10px;
+    color: white;
+  }
+  
+  .DeleteHeader{
+    margin: 2%;
+    margin-bottom: 2%;
+  }
+  
+  .DeleteSubHeader{
+    margin: 2.5%;
+  }
+  
+  .CancleBookingCode{
+    margin-left: 35%;
+    margin-right: 35%;
+    margin-bottom: 2%;
+  }
+  
+  .Cancle-text-muted{
+    margin: 1%;
+  }
+  
+  
+  /*Admin Navigation*/
+  .adminnavigation ul{
+    background-color: rgb(98,212,223,0.5) ; 
+  
+  }
+  
+  .adminnavigation ul li{
+    display: inline-block;
+    margin:auto;
+    padding: 2rem;
+    color: white; 
+  
+  
+  }
+  
+  .adminnavigation ul li a{
+    color: white; 
+    opacity: 1;
+  }
 
-@media (min-width:1500px){
-.textboxes {
-  margin-left: 30rem;
-  margin-right: 30rem;
-}
-}
+  .AdminLoginTextboxes{
+    margin-left: 35%;
+    margin-right: 35%;
+    margin-bottom: 2%;
+  }
 
-.Header_DataForm{
-  margin: 30px;
-  font-size: x-large;
-  font-weight: 500;
-}
+  .adminLogo{
+    position: absolute;
+    max-height: 60px;
+    margin: 0.5%;
+    left: 0%;
+    top: 0%;
+   }
 
-/*BookingCodePage*/
+   .DatumVon{
+    margin:3%;
+   }
 
-.BookingCodePage{
- margin-top:3rem;
-}
+   .DatumBis{
+    margin:3%;
+   }
+  
+  /*Admin Timeslot*/
+  
+  .timeslotscheduler{
+    margin-top: 2rem;
+    margin-left: 2rem; 
+    margin-right: 2rem;
+  }
+  /*AdminLogin*/
+  
+  .AdminLogin{
+    margin-left: 35%;
+    margin-right: 35%;
+    margin-bottom: 2%;
+    margin-top: 3rem;
+    
+  }
+  
+  .adminCheckbox{
+    margin-top: 2rem;
+    width: auto;
+    padding: auto;
+  
+  }
+  .adminLogin{
+    margin-top: 1rem;
+  }
+  .Admindaten{
+    margin-top: 1rem;
+  }
 
-.QRCode{
-  margin: 5rem;
-}
-
-/*CanclePage*/
-
-.background{
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  margin: 10px;
-  color: white;
-}
-
-.DeleteHeader{
-  margin: 2%;
-  margin-bottom: 2%;
-}
-
-.DeleteSubHeader{
-  margin: 2.5%;
-}
-
-.CancleBookingCode{
-  margin-left: 35%;
-  margin-right: 35%;
-  margin-bottom: 2%;
-}
-
-.Cancle-text-muted{
-  margin: 1%;
-}
-
-
-/*Admin Navigation*/
-.adminnavigation ul{
-  background-color: rgb(98,212,223,0.5) ; 
-
-}
-
-.adminnavigation ul li{
-  display: inline-block;
-  margin:auto;
-  padding: 2rem;
-  color: white; 
+  .AdminLoginHeader{
+    font-size: x-large;
+    margin-bottom: 4%;
+  }
 
 
-}
+  .adminLoginLogo{
+    max-height: 150px;
+    margin-bottom: 4%;
+    margin-top: -2%;
+  }
+  
+  /*AdminCheckQR*/ 
 
-.adminnavigation ul li a{
-  color: white; 
-  opacity: 1;
-}
+  .QRCheckPassword{
+    margin-top: 4rem;
+    margin-left: 35%;
+    margin-right: 35%;
+  }
 
-/*Admin Timeslot*/
 
-.timeslotscheduler{
-  margin-top: 2rem;
-  margin-left: 2rem; 
-  margin-right: 2rem;
-}
-/*AdminLogin*/
-
-.AdminLogin{
+.Header_QRCheck{
   margin: 2%;
   font-size: xx-large;
-
 }
+  
+  
+  
