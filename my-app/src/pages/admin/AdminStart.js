@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import AdminNavigation from './AdminNavigation';
 import history from '../../history';
-import logo from '../../images/H20_Logo1.JPG';
 import Button from 'react-bootstrap/Button';
 import { Form, Col, } from 'react-bootstrap';
 
@@ -24,7 +23,6 @@ export default class AdminLogInPage extends Component {
         return (
             <React.Fragment>
                 <AdminNavigation></AdminNavigation>
-                <img src={logo} className="adminLogo" alt="adminLogo" />
                 <h1>Datenexport</h1>
 
                 <div className="AdminLoginTextboxes">

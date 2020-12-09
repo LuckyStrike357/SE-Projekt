@@ -56,7 +56,14 @@ exports.findOne = (req, res) => {
 
     Booking.findByPk(id)
         .then(data => {
-            res.send(data);
+            if (data !== null) {
+                res.send(data);
+            } else {
+                res.status(404).send({
+                    message: "Did not find booking with id=" + id
+                });
+            }
+
         })
         .catch(err => {
             res.status(500).send({
@@ -79,7 +86,7 @@ exports.update = (req, res) => {
                     message: "Booking was updated successfully."
                 });
             } else {
-                res.send({
+                res.status(404).send({
                     message: `Cannot update Booking with id=${id}. Maybe Booking was not found or req.body is empty!`
                 });
             }
@@ -141,7 +148,7 @@ exports.delete = async (req, res) => {
                 });
 
         } else {
-            res.status(403).send({ auth: false, message: 'Wrong data provided.' });
+            res.status(403).send({ auth: false, message: 'Forbidden.' });
         }
 
     } else {

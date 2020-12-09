@@ -5,8 +5,6 @@ import { NotificationContainer, NotificationManager } from 'react-notifications'
 import history from '../../history';
 import logo from '../../images/H20_Logo1.JPG';
 
-
-
 export default class AdminLogInPage extends Component {
 
   state = {
@@ -18,14 +16,8 @@ export default class AdminLogInPage extends Component {
 
     console.log('createNotification');
     switch (type) {
-      case 'info':
-        NotificationManager.info('Info message');
-        break;
       case 'success':
         NotificationManager.success('Buchung erfolgreich gelöscht!', 'Vorgang abgeschlossen');
-        break;
-      case 'warning':
-        NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
         break;
       case 'error':
         NotificationManager.error('Fehler bei der Anmeldung', 'Erneut versuchen!', 5000);
@@ -34,10 +26,8 @@ export default class AdminLogInPage extends Component {
   }
 
   loginUser = async (data) => {
-    console.log("start login");
 
     var url = `/api/auth/login`;
-
 
     const result = await fetch(url, {
       method: 'POST',
@@ -73,15 +63,10 @@ export default class AdminLogInPage extends Component {
     const handleSubmit = (event) => {
 
       const form = event.currentTarget;
-      if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
 
-        event.preventDefault();
-        event.stopPropagation();
-
-      } else {
-
-        event.preventDefault();
-        event.stopPropagation();
+      if (form.checkValidity()) {
 
         const data = {
           username: document.getElementById("formGroupId").value,
@@ -102,19 +87,19 @@ export default class AdminLogInPage extends Component {
           Bitte melden Sie sich mit Ihren Anmeldedaten an.
         </div>
         <div>
-            <Form id="dataForm" className="Admindaten" noValidate validated={this.state.validated} onSubmit={handleSubmit}>
-              <Form.Group controlId="formGroupId">
-                <Form.Label>Admin ID</Form.Label>
-                <Form.Control required type="id" placeholder="ID eingeben" />
-              </Form.Group>
-              <Form.Group controlId="formGroupPassword">
-                <Form.Label>Passwort</Form.Label>
-                <Form.Control required type="password" placeholder="Passwort" />
-              </Form.Group>
-              <Button variant="primary" type="submit">Anmelden</Button>
-            </Form>
-          </div>
-          <NotificationContainer />
+          <Form id="dataForm" className="Admindaten" noValidate validated={this.state.validated} onSubmit={handleSubmit}>
+            <Form.Group controlId="formGroupId">
+              <Form.Label>Admin ID</Form.Label>
+              <Form.Control required type="id" placeholder="ID eingeben" />
+            </Form.Group>
+            <Form.Group controlId="formGroupPassword">
+              <Form.Label>Passwort</Form.Label>
+              <Form.Control required type="password" placeholder="Passwort" />
+            </Form.Group>
+            <Button variant="primary" type="submit">Anmelden</Button>
+          </Form>
+        </div>
+        <NotificationContainer />
       </div>
 
 

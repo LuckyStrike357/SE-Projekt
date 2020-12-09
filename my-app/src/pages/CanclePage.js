@@ -11,16 +11,9 @@ export default class CanclePageClass extends Component {
 
     createNotification = (type) => {
 
-        console.log('createNotification');
         switch (type) {
-            case 'info':
-                NotificationManager.info('Info message');
-                break;
             case 'success':
                 NotificationManager.success('Buchung erfolgreich gelöscht!', 'Vorgang abgeschlossen');
-                break;
-            case 'warning':
-                NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
                 break;
             case 'error':
                 NotificationManager.error('Fehler beim Löschen', 'Vorgang abgebrochen!', 5000);
@@ -65,15 +58,10 @@ export default class CanclePageClass extends Component {
 
         const handleSubmit = (event) => {
             const form = event.currentTarget;
-            if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
 
-                event.preventDefault();
-                event.stopPropagation();
-
-            } else {
-
-                event.preventDefault();
-                event.stopPropagation();
+            if (form.checkValidity()) {
 
                 let day = document.getElementById("Tag").value;
                 let month = document.getElementById("Monat").value
