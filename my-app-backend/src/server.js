@@ -20,7 +20,7 @@ db.sequelize.sync({ force: true }).then(res => { run() });
 
 //create some data
 const run = async () => {
-  let visitor = await db.visitor.create({
+  let visitor1 = await db.visitor.create({
     email: "test@test.de",
     first_name: "Max",
     last_name: "Mustermann",
@@ -31,21 +31,37 @@ const run = async () => {
     telephone: "+49 123 456789",
   })
 
-  let timelot1 = await db.timeslot.create({
-    start: "2020-10-15 08:00:00",
-    end: "2020-10-15 09:59:59",
+  let visitor2 = await db.visitor.create({
+    email: "test@test.de",
+    first_name: "Max",
+    last_name: "Mustermann",
+    street: "Musterstraße",
+    number: 1,
+    city: "Musterstadt",
+    postal_code: 123456,
+    telephone: "+49 123 456789",
+  })
+
+  let timeslot1 = await db.timeslot.create({
+    start: "2020-11-10 08:00:00",
+    end: "2020-11-10 09:59:59",
     capacity: 100
   })
 
   let timeslot2 = await db.timeslot.create({
-    start: "2020-11-16 08:00:00",
-    end: "2020-11-16 09:59:59",
+    start: "2020-11-12 08:00:00",
+    end: "2020-11-12 09:59:59",
     capacity: 150
   })
 
   await db.booking.create({
-    visitorId: visitor.id,
-    timeslotId: timelot1.id
+    visitorId: visitor1.id,
+    timeslotId: timeslot1.id
+  })
+
+  await db.booking.create({
+    visitorId: visitor2.id,
+    timeslotId: timeslot2.id
   })
 
   var bcrypt = require('bcryptjs');
