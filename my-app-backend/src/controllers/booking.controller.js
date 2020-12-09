@@ -143,7 +143,7 @@ exports.delete = async (req, res) => {
         } else {
             res.status(403).send({ auth: false, message: 'Wrong data provided.' });
         }
-        
+
     } else {
         res.status(500).send({
             message: "Error retrieving Booking with id=" + id
@@ -167,3 +167,52 @@ exports.deleteAll = (req, res) => {
             });
         });
 };
+
+// Export all visitors within given time frame who had a scanned booking
+exports.exportVisitors = async (req, res) => {
+
+    const start = req.query.start;
+    const end = req.query.end;
+
+    //check if given email and date are associated with the booking
+    let Timeslot = db.timeslot;
+    let Visitor = db.visitor;
+
+    //include associated tables
+    Booking.findAll({
+        attributes: [['id', 'bookingId']],
+        where: {
+            scanned: true
+        },
+        include: [
+            {
+                model: Timeslot,
+                attributes: ['start', 'end'],
+                where: {
+                    start: {
+                        [Op.between]: [start, end]
+                    }
+                }
+            },
+            {
+                model: Visitor,
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+            }
+        ]
+    })
+        .then(data => {
+            if (data.length > 0) {
+                res.send(data);
+            } else {
+                res.status(500).send({
+                    message: "No bookings found"
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving bookings."
+            });
+        });
+}
