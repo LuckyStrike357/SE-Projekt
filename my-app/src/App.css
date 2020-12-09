@@ -230,13 +230,13 @@
   /*AdminCheckQR*/ 
 
   .QRCheckPassword{
-    margin-top: 5rem;
+    margin-top: 4rem;
     margin-left: 30%;
     margin-right: 30%;
   }
 
 .Header_QRCheck{
-  margin: 1%;
+  margin: 2%;
   font-size: xx-large;
 }
   

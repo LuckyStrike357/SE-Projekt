@@ -18,6 +18,7 @@ export default class AdminCheckQRClass extends Component {
                 <div className="Header_QRCheck">
                     QR Code Prüfung
                 </div>
+                <h>Bitte geben Sie in das Feld die Kennziffer ein, um den QR-Code auf Gültigkeit zu prüfen.</h>
                 <Form>
                     <Form.Group controlId="formGroupPassword" className="QRCheckPassword">
                         <Form.Label>QR Code:</Form.Label>
