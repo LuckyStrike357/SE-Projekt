@@ -248,6 +248,11 @@
   .Admindaten{
     margin-top: 1rem;
   }
+
+  .adminLoginLogo{
+    max-height: 150px;
+    margin-bottom: 2%;
+  }
   
   /*AdminCheckQR*/ 
 
