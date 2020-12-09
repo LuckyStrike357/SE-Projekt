@@ -4,3 +4,4 @@ my-app-backend/build/
 my-app-backend/src/build/
 my-app/build/
 my-app/debug.log
+Database/result.txt
