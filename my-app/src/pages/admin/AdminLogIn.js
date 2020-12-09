@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import { Form } from "react-bootstrap";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import history from '../../history';
+import logo from '../../images/H20_Logo1.JPG';
 
 
 
