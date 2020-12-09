@@ -100,6 +100,7 @@ export default class AdminLogInPage extends Component {
         <img src={logo} className="adminLoginLogo" alt="adminLoginLogo" />
         <div className="AdminLoginHeader">
           Bitte melden Sie sich mit Ihren Anmeldedaten an.
+        </div>
         <div>
             <Form id="dataForm" className="Admindaten" noValidate validated={this.state.validated} onSubmit={handleSubmit}>
               <Form.Group controlId="formGroupId">
@@ -114,7 +115,6 @@ export default class AdminLogInPage extends Component {
             </Form>
           </div>
           <NotificationContainer />
-        </div>
       </div>
 
 
