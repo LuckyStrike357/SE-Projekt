@@ -95,11 +95,15 @@ export default class Demo extends React.PureComponent {
     }
 
     componentDidMount() {
+        console.log(history.location.state)
         if (history.location.state) {
             this.setState({ token: history.location.state.token });
+            this.fetchTimeslots();
+            console.log("state data", this.state.data)
+        }else{
+            history.push({pathname:'/admin'}); 
         }
-        this.fetchTimeslots();
-        console.log("state data", this.state.data)
+        
     }
 
     async fetchTimeslots() {
