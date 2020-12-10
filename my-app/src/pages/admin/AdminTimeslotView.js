@@ -16,19 +16,6 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 import history from '../../history';
 
-const currentDate = '2020-11-15';
-const appointments = [
-
-    {
-        startDate: new Date(2020, 10, 15, 9, 35),
-        endDate: new Date(2020, 10, 15, 11, 30),
-        id: 0,
-        capacity: 10,
-        bookings: 30,
-
-    }
-];
-
 
 /* Customize AppointmentForm Beginn*/
 
@@ -40,15 +27,16 @@ const messages = {
 //Hide Text Editor Field
 const TextEditor = (props) => {
     // eslint-disable-next-line react/destructuring-assignment
-    return null;
+    return (<></>);
 };
 
 //Hide Reoccurence & All Day Button
 const BooleanEditor = ({ props }) => {
-    return (null);
+    return (<></>);
 };
 
-const BasicLayout = ({ appointmentData, ...restProps }) => {
+const BasicLayout = ({ appointmentData,  ...restProps }) => {
+    console.log(restProps)
     return (
         <AppointmentForm.BasicLayout
             appointmentData={appointmentData}
@@ -59,7 +47,7 @@ const BasicLayout = ({ appointmentData, ...restProps }) => {
                 type="title"
             />
             <AppointmentForm.Label
-                text={appointmentData.bookings + "%"}
+                text={appointmentData.bookings ? appointmentData.bookings + "%" : `0%`}
                 type="ordinary"
             />
         </AppointmentForm.BasicLayout>
@@ -74,8 +62,6 @@ export default class Demo extends React.PureComponent {
         this.state = {
             token: '',
             timeslots: [],
-            data: appointments,
-            currentDate: currentDate,
             resources: [
                 {
                     fieldName: 'capacity',
@@ -92,6 +78,7 @@ export default class Demo extends React.PureComponent {
         };
 
         this.commitChanges = this.commitChanges.bind(this);
+      
     }
 
     componentDidMount() {
@@ -99,11 +86,10 @@ export default class Demo extends React.PureComponent {
         if (history.location.state) {
             this.setState({ token: history.location.state.token });
             this.fetchTimeslots();
-            console.log("state data", this.state.data)
-        }else{
-            history.push({pathname:'/admin'}); 
+        } else {
+            history.push({ pathname: '/admin' });
         }
-        
+
     }
 
     async fetchTimeslots() {
@@ -112,7 +98,6 @@ export default class Demo extends React.PureComponent {
         const result = await fetch(url);
         if (result.ok) {
             const body = await result.json();
-            console.log("body", body)
             this.fetchTimeslotBookings(body);
         } else {
             this.setState({ timeslots: [] });
@@ -122,11 +107,9 @@ export default class Demo extends React.PureComponent {
     }
 
     async fetchTimeslotBookings(timeslotsdata) {
-        console.log("timeslots", timeslotsdata)
+
         var checkedTimeslots = [];
-        this.setState({ timeslots: [] });
-        var that = this;
-        await timeslotsdata.forEach(await async function (timeslot, index) {
+        for (const timeslot of timeslotsdata) {
             var url = `/timeslots/?id=` + timeslot.id + `&count=true`;
             const result = await fetch(url);
             if (result.ok) {
@@ -138,14 +121,13 @@ export default class Demo extends React.PureComponent {
                 }
                 timeslot.startDate = new Date(timeslot.start);
                 timeslot.endDate = new Date(timeslot.end);
-                //timeslot.title = 'test';
+
                 checkedTimeslots.push(timeslot);
             } else {
                 console.log("Error during fetchTimeslotBookings: ", result.status);
             }
-            that.setState({ timeslots: checkedTimeslots });
-            console.log("checkedTimeslots", checkedTimeslots);
-        })
+        }
+        this.setState({ timeslots: checkedTimeslots });
     }
 
     async addTimeslot(start, end, capacity) {
@@ -158,11 +140,15 @@ export default class Demo extends React.PureComponent {
         const result = await fetch(url, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json', 'Accept': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'x-access-token': this.state.token
             },
             body: JSON.stringify(data),
         });
         if (result.ok) {
+            const body = await result.json();
+            console.log(body)
             console.log("Added Timeslot :", start, end, capacity)
 
         } else {
@@ -171,41 +157,49 @@ export default class Demo extends React.PureComponent {
         }
     }
 
-    async updateTimeslot(id, start, end, capacity) {
-        var url = `/timeslots/`;
-        var data = {
-            id: id,
-            start: start,
-            end: end,
-            capacity: capacity
-        }
+    async updateTimeslot(changed) {
+       
+        var id = Object.keys(changed)[0]; //get id
+        var data = Object.values(changed)[0]; //get changed values
+
+        var url = `/timeslots/` + id;
+
         const result = await fetch(url, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json', 'Accept': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'x-access-token': this.state.token
             },
             body: JSON.stringify(data),
         });
         if (result.ok) {
-            console.log("Updated Timeslot :", id, start, end, capacity)
+            const body = await result.json();
+            console.log(body)
+            console.log("Updated Timeslot :", changed)
         } else {
             console.log("Error during updateTimeslot: ", result.status);
         }
     }
 
     async deleteTimeslot(id) {
-        var url = `/timeslots/`;
+        console.log(id)
+        var url = `/timeslots/` + id;
         var data = {
             id: id,
         }
         const result = await fetch(url, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json', 'Accept': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'x-access-token': this.state.token
             },
-            body: JSON.stringify(data),
+
         });
         if (result.ok) {
+            const body = await result.json();
+            console.log(body)
             console.log("Deleted Timeslot :", id)
         } else {
             console.log("Error during deleteTimeslot: ", result.status);
@@ -213,56 +207,40 @@ export default class Demo extends React.PureComponent {
     }
 
     commitChanges({ added, changed, deleted }) {
-        console.log(this.state.timeslots)
-        /*
+        console.log("added",added)
         if (added) {
             this.addTimeslot(added.startDate, added.endDate, added.capacity)
         }
         if (changed) {
-            this.updateTimeslot(changed.id, changed.startDate, changed.endDate, changed.capacity)
+            this.updateTimeslot(changed)
         }
         if (deleted !== undefined) {
-            this.deleteTimeslot(deleted.id);
+            this.deleteTimeslot(deleted);
         }
-
+        
         this.fetchTimeslots();
-        */
-
-        this.setState((state)=>{
-        let { data } = state;
-        console.log(data)
-        if (added) {
-            const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
-            data = [...data, { id: startingAddedId, ...added }];
-        }
-        if (changed) {
-            data = data.map(appointment => (
-                changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
-        }
-        if (deleted !== undefined) {
-            data = data.filter(appointment => appointment.id !== deleted);
-        }
-        return { data };
-    });
+        
 
     }
 
     render() {
-        const { currentDate, data, resources, timeslots } = this.state;
+        const { resources } = this.state;
+    
 
         return (
             <React.Fragment>
                 <AdminNavigation></AdminNavigation>
                 <Paper className="timeslotscheduler">
                     <Scheduler
-                        data={data}
+                        data={this.state.timeslots} //don't change this to timeslot
                     >
                         <EditingState
                             onCommitChanges={this.commitChanges}
+                           
                         />
                         <IntegratedEditing />
                         <ViewState
-                        currentDate={currentDate} //if removed current date wil automatically be used
+                        // currentDate={currentDate} //if removed current date wil automatically be used
                         />
                         <WeekView
                             startDayHour={6}
@@ -271,7 +249,6 @@ export default class Demo extends React.PureComponent {
                         <Toolbar />
                         <DateNavigator />
                         <TodayButton />
-                        <ConfirmationDialog />
                         <Appointments />
                         <AppointmentTooltip
                             showOpenButton

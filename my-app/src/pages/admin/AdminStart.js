@@ -16,7 +16,7 @@ export default class AdminLogInPage extends Component {
     }
 
     state = {
-        token: 1
+        token: '',
     }
 
     render() {
@@ -26,10 +26,10 @@ export default class AdminLogInPage extends Component {
                 <h1>Datenexport</h1>
 
                 <div className="AdminLoginTextboxes">
-                    <h>Bitte geben Sie den Zeitraum an in diesem Sie den Datenexport vornehmen möchten.</h><br />
+                    <p>Bitte geben Sie den Zeitraum an in diesem Sie den Datenexport vornehmen möchten.</p><br />
 
                     <div className="DatumVon">
-                    <h>Von:</h>
+                    <p>Von:</p>
                     <Form.Row>
                         <Form.Group as={Col} xs={3} controlId="Tag">
                             <Form.Control required as="select" custom>
@@ -89,7 +89,7 @@ export default class AdminLogInPage extends Component {
                     </div>
 
                     <div className="DatumBis">
-                    <h>Bis:</h>
+                    <p>Bis:</p>
                     <Form.Row>
                         <Form.Group as={Col} xs={3} controlId="Tag">
                             <Form.Control required as="select" custom>

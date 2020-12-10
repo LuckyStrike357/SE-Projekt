@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../images/H20_Logo1.JPG';
 import history from '../../history';
+import Button from 'react-bootstrap/Button';
 
 export default class AdminNavigation extends Component {
 
@@ -21,8 +22,15 @@ export default class AdminNavigation extends Component {
         }
     }
 
+    logout = () =>{
+        window.localStorage.removeItem('token');
+        history.push({pathname:'/admin'});
+    }
+
     render() {
         const { token } = this.state;
+
+        
         return (
 
             <React.Fragment>
@@ -38,7 +46,11 @@ export default class AdminNavigation extends Component {
                         <li>
                             <Link to={{pathname:"/admin/checkQR", state:{token:token}}}>CheckQR</Link>
                         </li>
+                        <li>
+                            <Button className="adminLogout" variant="primary" onClick={this.logout} size="sm">Ausloggen</Button>
+                        </li>
                     </ul>
+                    
                 </nav>
             </React.Fragment>
         )

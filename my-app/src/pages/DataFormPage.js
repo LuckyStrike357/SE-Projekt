@@ -18,7 +18,7 @@ export default class DataFormPage extends Component {
 
     componentDidMount() {
         //fetch timeslot data for given id
-        var timeslotID;
+        
         console.log("history.location.state.timeslot_id;", history.location.state.timeslot_id)
         
         this.setState({ timeslotID: history.location.state.timeslot_id });
