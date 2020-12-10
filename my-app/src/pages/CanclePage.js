@@ -18,6 +18,8 @@ export default class CanclePageClass extends Component {
             case 'error':
                 NotificationManager.error('Fehler beim Löschen', 'Vorgang abgebrochen!', 5000);
                 break;
+            default:
+            // do nothing
         }
     }
 

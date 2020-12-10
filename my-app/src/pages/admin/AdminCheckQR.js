@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import AdminNavigation from './AdminNavigation';
-import { Form, Col, } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
+import history from '../../history';
 
 
 export default class AdminCheckQRClass extends Component {
 
     state = {
+        token: '',
         bookingId: null,
         validated: false
     }
@@ -20,6 +22,11 @@ export default class AdminCheckQRClass extends Component {
             this.setState({ bookingId: id })
             document.getElementById("formBookingId").value = id;
         }
+
+        if (history.location.state) {
+            this.setState({ token: history.location.state.token });
+        }
+
     }
 
     createNotification = (type) => {
@@ -34,13 +41,16 @@ export default class AdminCheckQRClass extends Component {
             case 'warning':
                 NotificationManager.warning('Buchung ungültig!', 'Fehler bei der Validierung!', 5000);
                 break;
+            default:
+            // do nothing
         }
     }
 
     validateBooking = async (data) => {
 
         var url = `/bookings/` + data.bookingId;
-        var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMjIwOTQzLTNhOWMtNDNmYi1hZjEwLTE3OTk5OTFkM2JiMCIsImlhdCI6MTYwNzUyMDYwNiwiZXhwIjoxNjA3NjA3MDA2fQ.fzwSMl68LxiOcgyvs-zKZhF5of1HBpranLfkyvqopvY'
+        //var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMjIwOTQzLTNhOWMtNDNmYi1hZjEwLTE3OTk5OTFkM2JiMCIsImlhdCI6MTYwNzUyMDYwNiwiZXhwIjoxNjA3NjA3MDA2fQ.fzwSMl68LxiOcgyvs-zKZhF5of1HBpranLfkyvqopvY'
+        var token = this.state.token;
         const result = await fetch(url, {
             method: 'GET',
             headers: {
@@ -59,11 +69,6 @@ export default class AdminCheckQRClass extends Component {
                 this.createNotification('warning');
             } else {
 
-                // Set scanned to true
-                var data = {
-                    scanned: true
-                }
-
                 await fetch(url, {
                     method: 'PUT',
                     headers: {
@@ -71,7 +76,7 @@ export default class AdminCheckQRClass extends Component {
                         'Accept': 'application/json',
                         'x-access-token': token
                     },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify({ scanned: true })
                 });
 
                 this.createNotification('success')

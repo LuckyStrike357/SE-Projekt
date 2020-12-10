@@ -22,6 +22,8 @@ export default class AdminLogInPage extends Component {
       case 'error':
         NotificationManager.error('Fehler bei der Anmeldung', 'Erneut versuchen!', 5000);
         break;
+      default:
+      // do nothing
     }
   }
 
