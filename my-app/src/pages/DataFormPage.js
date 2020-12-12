@@ -123,7 +123,7 @@ export default class DataFormPage extends Component {
                 var successfulBooking = await this.createBooking();
                 //4. Route to next Page
                 if (successfulBooking)
-                    history.push({ pathname: '/bookingCode',  state : {booking_id: this.state.booking.id} });
+                    history.push({ pathname: '/bookingCode',  state : {booking_id: this.state.booking.id, booking_startDate: this.state.timeslot.start, booking_endDate: this.state.timeslot.end} });
             }
         } else {
             //no capacity available

@@ -61,24 +61,37 @@ export default class FindSlotPage extends Component {
     componentDidMount() {
         //fetch timeslot data for today
         const today = new Date();
-        today.setHours(12,0,0,0);
+        //today.setHours(12,0,0,0);
         this.fetchTimeslotsPerDay(today);
     }
 
     onChange = (date) => {
-        date.setHours(12,0,0,0);
+        //date.setHours(12,0,0,0);
+        console.log(date)
         this.setState({ date });
         //fetch timeslot data for selected date
         this.fetchTimeslotsPerDay(date);
     }
 
     fetchTimeslotsPerDay = async (date) => {
-   
-        var endDate = new Date();
+        console.log(date)
+        var startDate = new Date(date);
+        var endDate = new Date(date);
+        console.log(startDate,endDate)
         endDate.setDate(date.getDate() + 1);
-        endDate.setHours(1,0,0,0);
+        console.log(startDate,endDate)
+        var startYear = startDate.getFullYear();
+        var endYear = endDate.getFullYear();
+        var startMonth = startDate.getMonth()+1;
+        var endMonth = endDate.getMonth()+1;
+        var startDay = startDate.getDate();
+        var endDay = endDate.getDate();
+        console.log(startDay)
+        const start = "" + startYear + "-" + startMonth + "-" + startDay;
+        const end = "" + endYear + "-" + endMonth + "-" + endDay;
+        console.log(start,end)
         console.log("start fetch timeslot data per day");
-        var url = `/timeslots/?start=` + date.toISOString().substring(0, 10) + `&end=` + endDate.toISOString().substring(0, 10);
+        var url = `/timeslots/?start=` + start + `&end=` + end;
         console.log(url)
         const result = await fetch(url);
         if (result.ok) {
@@ -95,24 +108,26 @@ export default class FindSlotPage extends Component {
     fetchTimeslotBookings = async (timeslotsdata) => {
         console.log("timeslots",timeslotsdata)
         var checkedTimeslots = [];
-        this.setState({ timeslots: [] });
-        var that = this;
-        await timeslotsdata.forEach(await async function (timeslot, index) {
+        
+        for(const timeslot of timeslotsdata){
+        //await timeslotsdata.forEach(await async function (timeslot, index) {
             var url = `/timeslots/?id=` + timeslot.id + `&count=true`;
             const result = await fetch(url);
             if (result.ok) {
                 const body = await result.json();
                 timeslot.free = timeslot.capacity - body.count;
-                
-                if (timeslot.free > 0) {
+                var startDate = new Date(timeslot.start);
+                var todayDate = new Date(); 
+                if(startDate>todayDate && timeslot.free>0){
                     checkedTimeslots.push(timeslot);
                 }
+
             } else {
                 console.log("Error during fetchTimeslotBookings: ", result.status);
             }
-            that.setState({ timeslots: checkedTimeslots });
-            console.log("checkedTimeslots",checkedTimeslots);
-        })
+        }
+        this.setState({ timeslots: checkedTimeslots });
+        console.log("checkedTimeslots",checkedTimeslots);
     }
 
     //HTMl Part of Page
