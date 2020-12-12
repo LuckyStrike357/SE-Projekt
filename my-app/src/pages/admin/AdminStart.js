@@ -77,8 +77,6 @@ export default class AdminLogInPage extends Component {
 
         const { Parser } = require('json2csv');
 
-        console.log(formattedData)
-
         if (formattedData.length > 0) {
             try {
                 //create csv
@@ -117,7 +115,6 @@ export default class AdminLogInPage extends Component {
         });
         if (result.ok) {
             const body = await result.json();
-            console.log(body)
             Promise.resolve(body);
             return body;
 
@@ -153,7 +150,6 @@ export default class AdminLogInPage extends Component {
                 const endYear = document.getElementById("JahrBis").value;
                 const start = "" + startYear + "-" + startMonth + "-" + startDay;
                 const end = "" + endYear + "-" + endMonth + "-" + endDay;
-                console.log(start, end)
                 this.export(start, end);
             }
             this.setState({ validated: true });

@@ -29,7 +29,7 @@ export default class AdminNavigation extends Component {
             window.localStorage.setItem('token', token);
         } else {
             //get token from localStorage
-            var token = window.localStorage.getItem('token');
+            token = window.localStorage.getItem('token');
             if(token){
                 console.log( "localStorage", localStorage);
             }
@@ -56,7 +56,7 @@ export default class AdminNavigation extends Component {
             },
         });
         if (result.ok) {
-            const body = await result.json();
+            //token o.k.
 
         } else {
             console.log("Error during testToken: ", result.status);
