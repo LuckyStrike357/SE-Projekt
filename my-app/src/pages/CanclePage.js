@@ -3,13 +3,19 @@ import Button from 'react-bootstrap/Button';
 import { Form, Col, } from 'react-bootstrap';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 
+/*
+* This page is for canceling a booking. Knowledge is used for authentification
+*/
+
 export default class CanclePageClass extends Component {
+    /* Component for rendering page*/
 
     state = {
         validated: false
     }
 
     createNotification = (type) => {
+        //define notifications
 
         switch (type) {
             case 'success':
@@ -24,6 +30,7 @@ export default class CanclePageClass extends Component {
     }
 
     deleteBooking = async (data) => {
+        //delete booking db connection
         console.log("start delete booking");
 
         var body = {
@@ -60,10 +67,12 @@ export default class CanclePageClass extends Component {
 
         const handleSubmit = (event) => {
             const form = event.currentTarget;
+
+            //stop propagation of event because it is handled manually
             event.preventDefault();
             event.stopPropagation();
 
-            if (form.checkValidity()) {
+            if (form.checkValidity()) { //check if all fields are filled
 
                 let day = document.getElementById("Tag").value;
                 let month = document.getElementById("Monat").value
@@ -76,6 +85,8 @@ export default class CanclePageClass extends Component {
                 }
 
                 console.log("Booking data: ", data)
+
+                //delete booking
                 this.deleteBooking(data);
             }
 
@@ -83,6 +94,7 @@ export default class CanclePageClass extends Component {
 
         }
 
+        //HTML Part
         return (
             <div className="CanclePage">
                 <h1 className="DeleteHeader">Buchung stornieren</h1>

@@ -16,6 +16,10 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 import history from '../../history';
 
+/*Page for creating, updating and deleting timeslots
+*get: token from AdminNavigation
+*send: nothing
+*/
 
 /* Customize AppointmentForm Beginn*/
 
@@ -57,6 +61,8 @@ const BasicLayout = ({ appointmentData,  ...restProps }) => {
 /* Customize AppointmentForm End*/
 
 export default class Demo extends React.PureComponent {
+/* Component for Schedule for timeslots*/
+
     constructor(props) {
         super(props);
         this.state = {
@@ -82,17 +88,14 @@ export default class Demo extends React.PureComponent {
     }
 
     componentDidMount() {
-        console.log(history.location.state)
         if (history.location.state) {
             this.setState({ token: history.location.state.token });
             this.fetchTimeslots();
-        } else {
-            history.push({ pathname: '/admin' });
-        }
-
+        } 
     }
 
     async fetchTimeslots() {
+        //db connection to fetch timeslot data
         console.log("start fetch timeslot");
         var url = `/timeslots/`;
         console.log(url)
@@ -108,6 +111,7 @@ export default class Demo extends React.PureComponent {
     }
 
     async fetchTimeslotBookings(timeslotsdata) {
+        //fetch booking information for timeslots 
 
         var checkedTimeslots = [];
         for (const timeslot of timeslotsdata) {
@@ -115,6 +119,8 @@ export default class Demo extends React.PureComponent {
             const result = await fetch(url);
             if (result.ok) {
                 const body = await result.json();
+                //calc capacity
+
                 if (timeslot.capacity) {
                     timeslot.bookings = Math.round(body.count / timeslot.capacity);
                 } else {
@@ -132,6 +138,7 @@ export default class Demo extends React.PureComponent {
     }
 
     async addTimeslot(start, end, capacity) {
+        //db connection to add timeslot
         var url = `/timeslots/`;
         var data = {
             start: start,
@@ -159,6 +166,7 @@ export default class Demo extends React.PureComponent {
     }
 
     async updateTimeslot(changed) {
+        //db connection to update timeslot
        
         var id = Object.keys(changed)[0]; //get id
         var data = Object.values(changed)[0]; //get changed values
@@ -184,11 +192,10 @@ export default class Demo extends React.PureComponent {
     }
 
     async deleteTimeslot(id) {
-        console.log(id)
+        //db connection to delete timeslot
+
         var url = `/timeslots/` + id;
-        var data = {
-            id: id,
-        }
+
         const result = await fetch(url, {
             method: 'DELETE',
             headers: {
@@ -208,7 +215,8 @@ export default class Demo extends React.PureComponent {
     }
 
     commitChanges({ added, changed, deleted }) {
-        console.log("added",added)
+        //handle changes
+        
         if (added) {
             this.addTimeslot(added.startDate, added.endDate, added.capacity)
         }
@@ -219,11 +227,11 @@ export default class Demo extends React.PureComponent {
             this.deleteTimeslot(deleted);
         }
         
-        this.fetchTimeslots();
-        
+        this.fetchTimeslots();  
 
     }
 
+    //HTML Part
     render() {
         const { resources } = this.state;
     

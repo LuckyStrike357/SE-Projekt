@@ -5,7 +5,13 @@ import { NotificationContainer, NotificationManager } from 'react-notifications'
 import history from '../../history';
 import logo from '../../images/H20_Logo1.JPG';
 
+/* This is the Login page for the administration users
+* get: nothing,
+* send: security token to AdminNavigation
+*/
+
 export default class AdminLogInPage extends Component {
+  /*Component for rendering page*/
 
   state = {
     validated: false,
@@ -13,6 +19,7 @@ export default class AdminLogInPage extends Component {
   }
 
   createNotification = (type) => {
+    //define notifications
 
     console.log('createNotification');
     switch (type) {
@@ -28,6 +35,7 @@ export default class AdminLogInPage extends Component {
   }
 
   loginUser = async (data) => {
+    //db connection for login
 
     var url = `/api/auth/login`;
 
@@ -65,6 +73,7 @@ export default class AdminLogInPage extends Component {
     const handleSubmit = (event) => {
 
       const form = event.currentTarget;
+      //prevent propagation of event because it is handled manually
       event.preventDefault();
       event.stopPropagation();
 
@@ -82,6 +91,7 @@ export default class AdminLogInPage extends Component {
 
     }
 
+    //HTML Part
     return (
       <div className="AdminLogin">
         <img src={logo} className="adminLoginLogo" alt="adminLoginLogo" />

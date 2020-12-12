@@ -4,7 +4,13 @@ import logo from '../../images/H20_Logo1.JPG';
 import history from '../../history';
 import Button from 'react-bootstrap/Button';
 
+/* This is the navigation bar of the admin part
+* get: token from AdminLogIn
+* send: token to Subpages
+*/
+
 export default class AdminNavigation extends Component {
+    /*Component for rendering navigation*/
 
     state = {
         token: '',
@@ -14,12 +20,15 @@ export default class AdminNavigation extends Component {
 
         var token = undefined; 
 
+        //Check if token is supplied
         if (history.location.state) {
             console.log( "histroy", history.location.state.token)
             token = history.location.state.token;
             this.setState({ token: token });
+            //save token in localStorage to save login
             window.localStorage.setItem('token', token);
         } else {
+            //get token from localStorage
             var token = window.localStorage.getItem('token');
             if(token){
                 console.log( "localStorage", localStorage);
@@ -27,13 +36,16 @@ export default class AdminNavigation extends Component {
         }
 
         if(token){
+            //test if token is valid
             this.testToken(token);
         }else{
+            //send to loginPage if token is not valid
             history.push({ pathname: '/admin' });
         }
     }
 
     async testToken(token){
+        //validate token
         var url = `/api/auth/me`;
         const result = await fetch(url, {
             method: 'GET',
@@ -53,6 +65,7 @@ export default class AdminNavigation extends Component {
     }
 
     logout = () =>{
+        //logout
         window.localStorage.removeItem('token');
         history.push({pathname:'/admin'});
     }
@@ -60,7 +73,7 @@ export default class AdminNavigation extends Component {
     render() {
         const { token } = this.state;
 
-        
+        //HTML Part 
         return (
 
             <React.Fragment>

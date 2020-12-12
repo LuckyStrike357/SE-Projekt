@@ -5,17 +5,20 @@ import Button from 'react-bootstrap/Button';
 import { Form, Col, } from 'react-bootstrap';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 
-
+/*Export Page
+*get: token from AdminNavigation
+*send: nothing
+*/
 
 export default class AdminLogInPage extends Component {
 
     componentDidMount() {
 
+        //check if token is supplied
         if (history.location.state !== undefined) {
             this.setState({ token: history.location.state.token });
         }
 
-        console.log(this.state.token)
     }
 
     state = {
@@ -24,6 +27,7 @@ export default class AdminLogInPage extends Component {
     }
 
     createNotification = (type) => {
+        //define notifications
 
         switch (type) {
             case 'success':
@@ -41,6 +45,7 @@ export default class AdminLogInPage extends Component {
     }
 
     format(data) {
+        //format data from db (deep to flat object)
         var formattedData = [];
         if (!data) {
             return formattedData;
@@ -65,6 +70,7 @@ export default class AdminLogInPage extends Component {
     }
 
     async export(start, end) {
+        //download data
         console.log("start export");
         var exportData = await this.fetchExportData(start, end);
         var formattedData = await this.format(exportData);
@@ -75,14 +81,15 @@ export default class AdminLogInPage extends Component {
 
         if (formattedData.length > 0) {
             try {
+                //create csv
                 const parser = new Parser();//opts);
                 const csv = parser.parse(formattedData);
                 var uri = 'data:text/csv;charset=utf-8,' + csv;
 
+                //download csv
                 var downloadLink = document.createElement("a");
                 downloadLink.href = uri;
                 downloadLink.download = "data.csv";
-
                 document.body.appendChild(downloadLink);
                 downloadLink.click();
                 document.body.removeChild(downloadLink);
@@ -95,6 +102,7 @@ export default class AdminLogInPage extends Component {
     }
 
     async fetchExportData(start, end) {
+        //db connection for fetching export data
         console.log("start fetch export data");
         var url = `/export?start=` + start + `&end=` + end;
         console.log(url)
@@ -128,10 +136,12 @@ export default class AdminLogInPage extends Component {
     }
 
     render() {
-
+        //get data from form
         const handleSubmit = (event) => {
             console.log("handleSubmit");
             const form = event.currentTarget;
+
+             //stop propagation of event because it is handled manually
             event.preventDefault();
             event.stopPropagation();
             if (form.checkValidity() === true) {
@@ -149,6 +159,7 @@ export default class AdminLogInPage extends Component {
             this.setState({ validated: true });
         }
 
+        //HTML Part
         return (
             <React.Fragment>
                 <AdminNavigation></AdminNavigation>

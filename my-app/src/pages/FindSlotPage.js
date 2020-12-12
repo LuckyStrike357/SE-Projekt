@@ -8,23 +8,30 @@ import history from './../history';
 
 var errorTimeslot = "An diesem Tag stehen keine Zeiträume zur Buchung zur Verfügung";
 /*
+* This is a page for selecting the timeslot for the enduser 
 * get: nothing from StartPage,
 * send: selected Timeslot ID to DataFormPage,
 */
 
 class RenderTable extends Component {
+    /* Component for Table on this page */
 
     onClickTableRow = (event) => {
+        //Called on Click of the booking button on each table row (timeslot)
         const timeslotID = event.target.id;
         console.log("Timeslot ID", timeslotID);
+        //route to next page and send timeslotID
         history.push({ pathname: '/dataForm',state: {timeslot_id:timeslotID} });
     }
 
     render() {
+        //render TableData
         console.log("renderTableData");
         if (this.props.timeslots.length) {
             return this.props.timeslots.map((timeslot) => {
                 const { id, start, end, free } = timeslot //destructuring
+
+                //convert dates
                 var startDate = new Date(start);
                 var startTime = startDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
                 var endDate = new Date(end);
@@ -39,10 +46,11 @@ class RenderTable extends Component {
                     </tr>
                 )
             })
-        } else {
+        } else { //show if no data is available
+            
             return (
                 <tr >
-                    <td colSpan="5">{errorTimeslot}</td>
+                    <td colSpan="5">{errorTimeslot}</td> 
                 </tr>
             )
         }
@@ -52,6 +60,7 @@ class RenderTable extends Component {
 }
 
 export default class FindSlotPage extends Component {
+    /* Component for rendering page */
 
     state = {
         date: new Date(),
@@ -61,38 +70,36 @@ export default class FindSlotPage extends Component {
     componentDidMount() {
         //fetch timeslot data for today
         const today = new Date();
-        //today.setHours(12,0,0,0);
         this.fetchTimeslotsPerDay(today);
     }
 
     onChange = (date) => {
-        //date.setHours(12,0,0,0);
-        console.log(date)
+         //fetch timeslot data for selected date
         this.setState({ date });
-        //fetch timeslot data for selected date
         this.fetchTimeslotsPerDay(date);
     }
 
     fetchTimeslotsPerDay = async (date) => {
-        console.log(date)
+        console.log("start fetch timeslot data per day");
+
+        //convert dates
         var startDate = new Date(date);
         var endDate = new Date(date);
-        console.log(startDate,endDate)
         endDate.setDate(date.getDate() + 1);
-        console.log(startDate,endDate)
         var startYear = startDate.getFullYear();
         var endYear = endDate.getFullYear();
         var startMonth = startDate.getMonth()+1;
         var endMonth = endDate.getMonth()+1;
         var startDay = startDate.getDate();
         var endDay = endDate.getDate();
-        console.log(startDay)
         const start = "" + startYear + "-" + startMonth + "-" + startDay;
         const end = "" + endYear + "-" + endMonth + "-" + endDay;
-        console.log(start,end)
-        console.log("start fetch timeslot data per day");
+       
+        //create url
         var url = `/timeslots/?start=` + start + `&end=` + end;
         console.log(url)
+
+        //fetch and result
         const result = await fetch(url);
         if (result.ok) {
             const body = await result.json();
@@ -109,16 +116,24 @@ export default class FindSlotPage extends Component {
         console.log("timeslots",timeslotsdata)
         var checkedTimeslots = [];
         
+        //loop over each timeslot and preprocess
+        //don't use array.prototype.forEach() functions with async and await!
         for(const timeslot of timeslotsdata){
-        //await timeslotsdata.forEach(await async function (timeslot, index) {
+
             var url = `/timeslots/?id=` + timeslot.id + `&count=true`;
             const result = await fetch(url);
+
             if (result.ok) {
                 const body = await result.json();
+
+                //calc free bookings
                 timeslot.free = timeslot.capacity - body.count;
+
+                //check if timeslot is in future or past
                 var startDate = new Date(timeslot.start);
                 var todayDate = new Date(); 
                 if(startDate>todayDate && timeslot.free>0){
+                    //add to final array
                     checkedTimeslots.push(timeslot);
                 }
 
