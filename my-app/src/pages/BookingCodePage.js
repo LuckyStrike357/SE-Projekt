@@ -6,14 +6,23 @@ import history from './../history';
 export default class BookingCodePage extends Component {
 
     componentDidMount(){
-        this.setState({bookingCode:history.location.state.booking_id});
-        console.log(history.location.state.booking_id);
+       
+        var startDate = new Date(history.location.state.booking_startDate).toLocaleString("de-DE");
+        var endDate = new Date(history.location.state.booking_endDate).toLocaleString("de-DE");
+       
+        this.setState({
+            bookingCode:history.location.state.booking_id,
+            bookingStartDate:startDate,
+            bookingEndDate:endDate,
+        });
+        console.log("booking id", history.location.state.booking_id);
       
     }
     
 
     state = {
         bookingCode: 0,
+        bookingDate: new Date(),
     }
 
 
@@ -23,7 +32,8 @@ export default class BookingCodePage extends Component {
                 
                 <h1 className="BookingCodePage">Ihr Buchung war erfolgreich!</h1>
                 <h2>Hier ist ihr QRCode!</h2>
-
+                <h4>{this.state.bookingStartDate}</h4>
+                <h4>- {this.state.bookingEndDate}</h4>
                 <div className="QRCode">
 
                     <QRCode
@@ -45,8 +55,10 @@ export default class BookingCodePage extends Component {
                     />
                     <p>{this.state.bookingCode}</p>
                 </div>
-                
-                <Button variant="primary" onClick={() => history.push({ pathname: '/' })}>Home</Button>
+                <div className="commandButtons">
+                <Button variant="primary" onClick={() => window.print()}>Drucken</Button>
+                <Button variant="primary" size="sm" onClick={() => history.push({ pathname: '/' })}>Home</Button>
+                </div>
                
             </React.Fragment >
         );

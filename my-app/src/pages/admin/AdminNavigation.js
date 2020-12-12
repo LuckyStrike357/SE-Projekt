@@ -12,13 +12,43 @@ export default class AdminNavigation extends Component {
 
     componentDidMount() {
 
+        var token = undefined; 
+
         if (history.location.state) {
             console.log( "histroy", history.location.state.token)
-            this.setState({ token: history.location.state.token });
-            window.localStorage.setItem('token', history.location.state.token);
+            token = history.location.state.token;
+            this.setState({ token: token });
+            window.localStorage.setItem('token', token);
         } else {
-            this.setState({ token: window.localStorage.getItem('token') });
-            console.log( "localStorage", window.localStorage.getItem('token'))
+            var token = window.localStorage.getItem('token');
+            if(token){
+                console.log( "localStorage", localStorage);
+            }
+        }
+
+        if(token){
+            this.testToken(token);
+        }else{
+            history.push({ pathname: '/admin' });
+        }
+    }
+
+    async testToken(token){
+        var url = `/api/auth/me`;
+        const result = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'x-access-token': token
+            },
+        });
+        if (result.ok) {
+            const body = await result.json();
+
+        } else {
+            console.log("Error during testToken: ", result.status);
+            history.push({ pathname: '/admin' });
         }
     }
 

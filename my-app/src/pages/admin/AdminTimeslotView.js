@@ -95,6 +95,7 @@ export default class Demo extends React.PureComponent {
     async fetchTimeslots() {
         console.log("start fetch timeslot");
         var url = `/timeslots/`;
+        console.log(url)
         const result = await fetch(url);
         if (result.ok) {
             const body = await result.json();
@@ -121,7 +122,7 @@ export default class Demo extends React.PureComponent {
                 }
                 timeslot.startDate = new Date(timeslot.start);
                 timeslot.endDate = new Date(timeslot.end);
-
+                
                 checkedTimeslots.push(timeslot);
             } else {
                 console.log("Error during fetchTimeslotBookings: ", result.status);

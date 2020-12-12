@@ -143,7 +143,13 @@
   }
   
   .QRCode{
-    margin: 5rem;
+    margin: 3rem;
+  }
+
+  .commandButtons button{
+    display: block;
+    margin: auto;
+    margin-bottom: 1%;
   }
   
   /*CanclePage*/
