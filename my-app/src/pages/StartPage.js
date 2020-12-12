@@ -8,6 +8,9 @@ import logo from './../images/H20_Logo1.JPG';
 import swimmer from './../images/swimmer.jpg';
 import papers from './../images/papers.jpg';
 
+/* This is the Enduser Start Page 
+* Users can choose between booking and slot canclation
+*/
 
 const StartPage = () => (
 

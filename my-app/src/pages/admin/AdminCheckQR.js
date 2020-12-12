@@ -5,6 +5,10 @@ import Button from 'react-bootstrap/Button';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import history from '../../history';
 
+/*Check QR Code Page
+*get: token from AdminNavigation
+*send: nothing
+*/
 
 export default class AdminCheckQRClass extends Component {
 
@@ -16,8 +20,10 @@ export default class AdminCheckQRClass extends Component {
 
     componentDidMount() {
 
+        //search for url params
         const id = new URLSearchParams(this.props.location.search).get("id")
 
+        //prefill id if supplied
         if (id !== null) {
             this.setState({ bookingId: id })
             document.getElementById("formBookingId").value = id;
@@ -30,6 +36,7 @@ export default class AdminCheckQRClass extends Component {
     }
 
     createNotification = (type) => {
+        //define notification
 
         switch (type) {
             case 'success':
@@ -48,8 +55,9 @@ export default class AdminCheckQRClass extends Component {
 
     validateBooking = async (data) => {
 
+        //db connection to validate booking
+
         var url = `/bookings/` + data.bookingId;
-        //var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMjIwOTQzLTNhOWMtNDNmYi1hZjEwLTE3OTk5OTFkM2JiMCIsImlhdCI6MTYwNzUyMDYwNiwiZXhwIjoxNjA3NjA3MDA2fQ.fzwSMl68LxiOcgyvs-zKZhF5of1HBpranLfkyvqopvY'
         var token = this.state.token;
         const result = await fetch(url, {
             method: 'GET',
@@ -101,6 +109,7 @@ export default class AdminCheckQRClass extends Component {
         const handleSubmit = (event) => {
 
             const form = event.currentTarget;
+            //stop propagation of event because it is handled manually
             event.preventDefault();
             event.stopPropagation();
 
@@ -116,6 +125,7 @@ export default class AdminCheckQRClass extends Component {
             this.setState({ validated: true });
         }
 
+        //HTML Part
         return (
             <div className="CheckQR">
                 <AdminNavigation></AdminNavigation>

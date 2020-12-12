@@ -3,8 +3,16 @@ import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import history from './../history';
 import { Form, Col, } from "react-bootstrap";
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+
+/*
+* This page is for entering user data. Here the booking takes place
+* get: selected Timeslot ID from FindSlotPage,
+* send: Booking Id and Date/Time to BookingCodePage,
+*/
 
 export default class DataFormPage extends Component {
+    /* Component for rendering page */
 
     state = {
         bookingCode: "",
@@ -18,14 +26,15 @@ export default class DataFormPage extends Component {
 
     componentDidMount() {
         //fetch timeslot data for given id
-        
+
+        //read id from FindSlotPage and trigger fetch
         console.log("history.location.state.timeslot_id;", history.location.state.timeslot_id)
-        
         this.setState({ timeslotID: history.location.state.timeslot_id });
         this.fetchTimeslotData(history.location.state.timeslot_id);
     }
 
     createVisitor = async (data) => {
+        //DB communication to create visitor
         var url = `/visitors`;
         const result = await fetch(url, {
             method: 'POST',
@@ -46,6 +55,7 @@ export default class DataFormPage extends Component {
     }
 
     fetchTimeslotBookings = async (id) => {
+        //check free capacity 
         var url = `/timeslots/?id=` + id + `&count=true`;
         const result = await fetch(url);
         if (result.ok) {
@@ -64,7 +74,7 @@ export default class DataFormPage extends Component {
     }
 
     fetchTimeslotData = async (id) => {
-
+        //fetch data for given timeslotID
         console.log("start fetch timeslot data");
         if (id) {
             var url = `/timeslots/?id=` + id;
@@ -81,6 +91,7 @@ export default class DataFormPage extends Component {
     }
 
     createBooking = async () => {
+        //create booking 
         console.log("start create booking");
         var url = `/bookings`;
 
@@ -109,7 +120,7 @@ export default class DataFormPage extends Component {
     }
 
     bookSlot = async (data) => {
-       
+
         //1. Check Capacity
         var capacity = await this.fetchTimeslotBookings(this.state.timeslot.id);
 
@@ -117,33 +128,51 @@ export default class DataFormPage extends Component {
             //2. Create Visitor
             var successfullVisitor = await this.createVisitor(data);
             if (!successfullVisitor) {
-                alert("Please send form again");
+                this.createNotification('error');
             } else {
                 //3. Create Booking
                 var successfulBooking = await this.createBooking();
                 //4. Route to next Page
                 if (successfulBooking)
-                    history.push({ pathname: '/bookingCode',  state : {booking_id: this.state.booking.id, booking_startDate: this.state.timeslot.start, booking_endDate: this.state.timeslot.end} });
+                    history.push({ pathname: '/bookingCode', state: { booking_id: this.state.booking.id, booking_startDate: this.state.timeslot.start, booking_endDate: this.state.timeslot.end } });
             }
         } else {
             //no capacity available
-            alert("No capacity available");
+            this.createNotification('capacity');
         }
     }
 
+    createNotification = (type) => {
+        //define notfications
+        console.log('createNotification');
+        switch (type) {
+            case 'success':
+                NotificationManager.success('Buchung erfolgreich!', 'Vorgang abgeschlossen');
+                break;
+            case 'error':
+                NotificationManager.error('Fehler bei der Buchung', 'Erneut versuchen!', 5000);
+                break;
+            case 'capacity':
+                NotificationManager.error('Fehler bei der Buchung', 'Keine freie Kapazität wählen sie einen anderen Slot!', 5000);
+                break;
+            default:
+            // do nothing
+        }
+    }
+
+    //HTML Part 
     render() {
 
         const handleSubmit = (event) => {
             console.log("handleSubmit");
             const form = event.currentTarget;
-            if (form.checkValidity() === false) {
-                
-                event.preventDefault();
-                event.stopPropagation();
-            } else {
-               
-                event.preventDefault();
-                event.stopPropagation();
+
+            //submit event needs to be stoped because submit is handled manually
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (form.checkValidity() === true) {
+                //if all fields are filled get data
                 const data = {
                     email: document.getElementById("Email").value,
                     first_name: document.getElementById("Vorname").value,
@@ -154,13 +183,16 @@ export default class DataFormPage extends Component {
                     postal_code: document.getElementById("PLZ").value,
                     telephone: document.getElementById("Telefon").value + document.getElementById("Telefonnummer").value,
                 }
-                console.log("Vistor data: ",data)
+                console.log("Vistor data: ", data)
+
+                //book slot
                 this.bookSlot(data);
             }
             this.setState({ validated: true });
 
         }
 
+        //HTML Part 
         return (
             <div className="background">
                 <div className="Header_DataForm">
@@ -229,6 +261,7 @@ export default class DataFormPage extends Component {
                         <Button type="submit" size="lg" >Buchen</Button>
                     </Form>
                 </div>
+                <NotificationContainer />
             </div>
         );
     }

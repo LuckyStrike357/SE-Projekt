@@ -3,10 +3,16 @@ import QRCode from 'qrcode.react';
 import Button from 'react-bootstrap/Button';
 import history from './../history';
 
+/*
+* This page is displaying the booking code in form of a qr code
+* get: booking id and date/time from DataFormPage,
+* send: nothing,
+*/
+
 export default class BookingCodePage extends Component {
 
     componentDidMount(){
-       
+       //get data from previous page
         var startDate = new Date(history.location.state.booking_startDate).toLocaleString("de-DE");
         var endDate = new Date(history.location.state.booking_endDate).toLocaleString("de-DE");
        
@@ -25,7 +31,7 @@ export default class BookingCodePage extends Component {
         bookingDate: new Date(),
     }
 
-
+    //HTML Part
     render() {
         return (
             <React.Fragment>
