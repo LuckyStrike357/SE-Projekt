@@ -275,6 +275,7 @@ export default class AdminTimeslotView extends React.PureComponent {
                         />
                     </Scheduler>
                 </Paper>
+                <NotificationContainer />
             </React.Fragment>
         );
     }

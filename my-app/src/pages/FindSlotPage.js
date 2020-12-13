@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import history from './../history';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 var errorTimeslot = "An diesem Tag stehen keine Zeiträume zur Buchung zur Verfügung";
 /*
@@ -179,6 +179,7 @@ export default class FindSlotPage extends Component {
                         </Table>
                     </div>
                 </div>
+                <NotificationContainer />
             </React.Fragment>
         );
     }
