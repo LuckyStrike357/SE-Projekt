@@ -7,7 +7,7 @@ import { NotificationContainer, NotificationManager } from 'react-notifications'
 * This page is for canceling a booking. Knowledge is used for authentification
 */
 
-export default class CanclePageClass extends Component {
+export default class CancelPageClass extends Component {
     /* Component for rendering page*/
 
     state = {
@@ -96,7 +96,7 @@ export default class CanclePageClass extends Component {
 
         //HTML Part
         return (
-            <div className="CanclePage">
+            <div className="CancelPage">
                 <h1 className="DeleteHeader">Buchung stornieren</h1>
 
                 <p id="Infotext">
@@ -104,13 +104,13 @@ export default class CanclePageClass extends Component {
                     Wir löschen nur die den Buchungscode betreffende Reservierung.
                 </p>
 
-                <div className="CancleBookingCode">
-                    <Form className="CancleBookingForm" id="dataForm" noValidate validated={this.state.validated} onSubmit={handleSubmit}>
-                        <Form.Group controlId="Buchungscode" className="CancleGroup">
+                <div className="CancelBookingCode">
+                    <Form className="CancelBookingForm" id="dataForm" noValidate validated={this.state.validated} onSubmit={handleSubmit}>
+                        <Form.Group controlId="Buchungscode" className="CancelGroup">
                             <Form.Control required type="text" placeholder="Buchungscode" />
                         </Form.Group>
 
-                        <Form.Group controlId="Email" className="CancleGroup">
+                        <Form.Group controlId="Email" className="CancelGroup">
                             <Form.Control required type="email" placeholder="Email" />
                         </Form.Group>
 

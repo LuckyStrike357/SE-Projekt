@@ -118,7 +118,7 @@ body {
   margin-bottom: 1%;
 }
 
-/*CanclePage*/
+/*CancelPage*/
 
 .background {
   -webkit-background-size: cover;
@@ -138,13 +138,13 @@ body {
   margin: 2.5%;
 }
 
-.CancleBookingCode {
+.CancelBookingCode {
   margin-left: 35%;
   margin-right: 35%;
   margin-bottom: 2%;
 }
 
-.Cancle-text-muted {
+.Cancel-text-muted {
   margin: 1%;
 }
 

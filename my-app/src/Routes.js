@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Router, Switch, Route } from "react-router-dom";
 
 import StartPage from './pages/StartPage';
-import CanclePage from './pages/CanclePage';
+import CancelPage from './pages/CancelPage';
 import FindSlotPage from './pages/FindSlotPage';
 import DataFormPage from './pages/DataFormPage';
 import BookingCodePage from './pages/BookingCodePage';
@@ -20,7 +20,7 @@ export default class Routes extends Component {
             <Router history={history}>
                 <Switch>
                     <Route path="/" exact component={StartPage} />
-                    <Route path="/cancle" component={CanclePage} />
+                    <Route path="/cancel" component={CancelPage} />
                     <Route path="/findSlot" component={FindSlotPage} />
                     <Route path="/dataForm" component={DataFormPage} />
                     <Route path="/bookingCode" component={BookingCodePage} />
