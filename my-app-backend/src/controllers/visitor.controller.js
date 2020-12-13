@@ -1,5 +1,5 @@
 /**
- * Import models
+ * Controller for the Visitor endpoints
  */
 const db = require("../models");
 var Visitor = db.visitor;

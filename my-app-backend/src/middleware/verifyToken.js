@@ -1,3 +1,7 @@
+/**
+ * Middleware to verify the JSON Web Token
+ */
+
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('../config/auth.config'); // get our config file
 

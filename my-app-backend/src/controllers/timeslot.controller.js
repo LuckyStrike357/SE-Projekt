@@ -1,5 +1,5 @@
 /**
- * Import models
+ * Controller for the Timeslot endpoints
  */
 const db = require("../models");
 var Timeslot = db.timeslot;

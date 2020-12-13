@@ -1,3 +1,7 @@
+/**
+ * Booking model
+ */
+
 module.exports = (sequelize, Sequelize) => {
 
     // Only id, foreign keys are added in index.js

@@ -1,3 +1,7 @@
+/**
+ * Database settings
+ */
+
 module.exports = {
   HOST: "localhost",
   USER: "admin",

@@ -1,3 +1,7 @@
+/**
+ * Routes for timeslot endpoint 
+ */
+
 module.exports = app => {
   const timeslots = require("../controllers/timeslot.controller.js");
   const VerifyToken = require('../middleware/verifyToken.js');

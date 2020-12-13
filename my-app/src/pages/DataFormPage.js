@@ -28,7 +28,6 @@ export default class DataFormPage extends Component {
         //fetch timeslot data for given id
 
         //read id from FindSlotPage and trigger fetch
-        console.log("history.location.state.timeslot_id;", history.location.state.timeslot_id)
         this.setState({ timeslotID: history.location.state.timeslot_id });
         this.fetchTimeslotData(history.location.state.timeslot_id);
     }
@@ -45,11 +44,9 @@ export default class DataFormPage extends Component {
         });
         if (result.ok) {
             const body = await result.json();
-            console.log("Successfully created visitor: ", body);
             this.setState({ visitor: body });
             return true;
         } else {
-            console.log("Error during createVisitor: ", result.status);
             return false;
         }
     }
@@ -68,31 +65,27 @@ export default class DataFormPage extends Component {
                 return true;
             }
         } else {
-            console.log("Error during fetchTimeslotBookings: ", result.status);
             return false;
         }
     }
 
     fetchTimeslotData = async (id) => {
         //fetch data for given timeslotID
-        console.log("start fetch timeslot data");
+
         if (id) {
             var url = `/timeslots/?id=` + id;
             const result = await fetch(url);
             if (result.ok) {
                 const body = await result.json();
                 this.setState({ timeslot: body });
-                console.log("Succesfully fetched timeslot: ", body);
             } else {
                 this.setState({ timeslot: {} });
-                console.log("Error during fetchTimeslotsPerDay: ", result.status);
             }
         }
     }
 
     createBooking = async () => {
         //create booking 
-        console.log("start create booking");
         var url = `/bookings`;
 
         var data = {
@@ -110,11 +103,9 @@ export default class DataFormPage extends Component {
         });
         if (result.ok) {
             const body = await result.json();
-            console.log("Succesffully created booking: ", body);
             this.setState({ booking: body });
             return true;
         } else {
-            console.log("Error during createBooking: ", result.status);
             return false;
         }
     }
@@ -144,7 +135,6 @@ export default class DataFormPage extends Component {
 
     createNotification = (type) => {
         //define notfications
-        console.log('createNotification');
         switch (type) {
             case 'success':
                 NotificationManager.success('Buchung erfolgreich!', 'Vorgang abgeschlossen');
@@ -164,7 +154,6 @@ export default class DataFormPage extends Component {
     render() {
 
         const handleSubmit = (event) => {
-            console.log("handleSubmit");
             const form = event.currentTarget;
 
             //submit event needs to be stoped because submit is handled manually
@@ -183,7 +172,6 @@ export default class DataFormPage extends Component {
                     postal_code: document.getElementById("PLZ").value,
                     telephone: document.getElementById("Telefon").value + document.getElementById("Telefonnummer").value,
                 }
-                console.log("Vistor data: ", data)
 
                 //book slot
                 this.bookSlot(data);

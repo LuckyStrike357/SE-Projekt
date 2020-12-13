@@ -1,3 +1,7 @@
+/**
+ * Timeslot model
+ */
+
 module.exports = (sequelize, Sequelize) => {
     const Timeslot = sequelize.define("timeslots", {
         id: {

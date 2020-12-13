@@ -1,5 +1,5 @@
 /**
- * Import models
+ * Controller for the Booking endpoints
  */
 const db = require("../models");
 var Booking = db.booking;

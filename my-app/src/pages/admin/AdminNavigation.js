@@ -18,11 +18,10 @@ export default class AdminNavigation extends Component {
 
     componentDidMount() {
 
-        var token = undefined; 
+        var token = undefined;
 
         //Check if token is supplied
         if (history.location.state) {
-            console.log( "histroy", history.location.state.token)
             token = history.location.state.token;
             this.setState({ token: token });
             //save token in localStorage to save login
@@ -30,21 +29,18 @@ export default class AdminNavigation extends Component {
         } else {
             //get token from localStorage
             token = window.localStorage.getItem('token');
-            if(token){
-                console.log( "localStorage", localStorage);
-            }
         }
 
-        if(token){
+        if (token) {
             //test if token is valid
             this.testToken(token);
-        }else{
+        } else {
             //send to loginPage if token is not valid
             history.push({ pathname: '/admin' });
         }
     }
 
-    async testToken(token){
+    async testToken(token) {
         //validate token
         var url = `/api/auth/me`;
         const result = await fetch(url, {
@@ -56,18 +52,18 @@ export default class AdminNavigation extends Component {
             },
         });
         if (result.ok) {
-            //token o.k.
+            //token o.k. --> do nothing
 
         } else {
-            console.log("Error during testToken: ", result.status);
+            //navigate to login
             history.push({ pathname: '/admin' });
         }
     }
 
-    logout = () =>{
+    logout = () => {
         //logout
         window.localStorage.removeItem('token');
-        history.push({pathname:'/admin'});
+        history.push({ pathname: '/admin' });
     }
 
     render() {
@@ -81,19 +77,19 @@ export default class AdminNavigation extends Component {
                 <nav className="adminnavigation">
                     <ul>
                         <li>
-                            <Link to={{pathname:"/admin/start", state:{token:token}}}>Start</Link>
+                            <Link to={{ pathname: "/admin/start", state: { token: token } }}>Start</Link>
                         </li>
                         <li>
-                            <Link to={{pathname:"/admin/timeslots", state:{token:token}}}>Timeslots</Link>
+                            <Link to={{ pathname: "/admin/timeslots", state: { token: token } }}>Timeslots</Link>
                         </li>
                         <li>
-                            <Link to={{pathname:"/admin/checkQR", state:{token:token}}}>CheckQR</Link>
+                            <Link to={{ pathname: "/admin/checkQR", state: { token: token } }}>CheckQR</Link>
                         </li>
                         <li>
                             <Button className="adminLogout" variant="primary" onClick={this.logout} size="sm">Ausloggen</Button>
                         </li>
                     </ul>
-                    
+
                 </nav>
             </React.Fragment>
         )

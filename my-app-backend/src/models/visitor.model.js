@@ -1,3 +1,7 @@
+/**
+ * Visitor model
+ */
+
 module.exports = (sequelize, Sequelize) => {
     const Visitor = sequelize.define("visitors", {
         id: {

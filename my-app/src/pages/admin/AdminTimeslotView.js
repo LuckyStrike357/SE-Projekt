@@ -14,6 +14,7 @@ import {
     AppointmentTooltip,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import history from '../../history';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 /*Page for creating, updating and deleting timeslots
 *get: token from AdminNavigation
@@ -38,7 +39,7 @@ const BooleanEditor = ({ props }) => {
     return (<></>);
 };
 
-const BasicLayout = ({ appointmentData,  ...restProps }) => {
+const BasicLayout = ({ appointmentData, ...restProps }) => {
     return (
         <AppointmentForm.BasicLayout
             appointmentData={appointmentData}
@@ -58,8 +59,8 @@ const BasicLayout = ({ appointmentData,  ...restProps }) => {
 
 /* Customize AppointmentForm End*/
 
-export default class Demo extends React.PureComponent {
-/* Component for Schedule for timeslots*/
+export default class AdminTimeslotView extends React.PureComponent {
+    /* Component for Schedule for timeslots*/
 
     constructor(props) {
         super(props);
@@ -82,19 +83,30 @@ export default class Demo extends React.PureComponent {
         };
 
         this.commitChanges = this.commitChanges.bind(this);
-      
+
     }
 
     componentDidMount() {
         if (history.location.state) {
             this.setState({ token: history.location.state.token });
             this.fetchTimeslots();
-        } 
+        }
+    }
+
+    createNotification = (type) => {
+        //define notification
+
+        switch (type) {
+            case 'error':
+                NotificationManager.error('Fehler!', 'Fehler beim Vorgang!', 5000);
+                break;
+            default:
+            // do nothing
+        }
     }
 
     async fetchTimeslots() {
         //db connection to fetch timeslot data
-        console.log("start fetch timeslot");
         var url = `/timeslots/`;
         const result = await fetch(url);
         if (result.ok) {
@@ -102,7 +114,6 @@ export default class Demo extends React.PureComponent {
             this.fetchTimeslotBookings(body);
         } else {
             this.setState({ timeslots: [] });
-            console.log("Error during fetchTimeslots: ", result.status);
         }
 
     }
@@ -119,16 +130,16 @@ export default class Demo extends React.PureComponent {
                 //calc capacity
 
                 if (timeslot.capacity) {
-                    timeslot.bookings = Math.round(body.count / timeslot.capacity);
+                    timeslot.bookings = Math.round(body.count / timeslot.capacity * 100);
                 } else {
                     timeslot.bookings = 100;
                 }
                 timeslot.startDate = new Date(timeslot.start);
                 timeslot.endDate = new Date(timeslot.end);
-                
+
                 checkedTimeslots.push(timeslot);
             } else {
-                console.log("Error during fetchTimeslotBookings: ", result.status);
+                this.createNotification('error');
             }
         }
         this.setState({ timeslots: checkedTimeslots });
@@ -152,18 +163,16 @@ export default class Demo extends React.PureComponent {
             body: JSON.stringify(data),
         });
         if (result.ok) {
-            const body = await result.json();
-            console.log("Added Timeslot :", start, end, capacity)
+            //do nothing
 
         } else {
-            console.log("Error during addTimeslot: ", result.status);
-
+            this.createNotification('error');
         }
     }
 
     async updateTimeslot(changed) {
         //db connection to update timeslot
-       
+
         var id = Object.keys(changed)[0]; //get id
         var data = Object.values(changed)[0]; //get changed values
 
@@ -179,10 +188,9 @@ export default class Demo extends React.PureComponent {
             body: JSON.stringify(data),
         });
         if (result.ok) {
-            const body = await result.json();
-            console.log("Updated Timeslot :", changed)
+            // do nothing
         } else {
-            console.log("Error during updateTimeslot: ", result.status);
+            this.createNotification('error');
         }
     }
 
@@ -201,16 +209,15 @@ export default class Demo extends React.PureComponent {
 
         });
         if (result.ok) {
-            const body = await result.json();
-            console.log("Deleted Timeslot :", id)
+            // do nothing
         } else {
-            console.log("Error during deleteTimeslot: ", result.status);
+            this.createNotification('error');
         }
     }
 
     commitChanges({ added, changed, deleted }) {
         //handle changes
-        
+
         if (added) {
             this.addTimeslot(added.startDate, added.endDate, added.capacity)
         }
@@ -220,15 +227,15 @@ export default class Demo extends React.PureComponent {
         if (deleted !== undefined) {
             this.deleteTimeslot(deleted);
         }
-        
-        this.fetchTimeslots();  
+
+        this.fetchTimeslots();
 
     }
 
     //HTML Part
     render() {
         const { resources } = this.state;
-    
+
 
         return (
             <React.Fragment>
@@ -239,7 +246,7 @@ export default class Demo extends React.PureComponent {
                     >
                         <EditingState
                             onCommitChanges={this.commitChanges}
-                           
+
                         />
                         <IntegratedEditing />
                         <ViewState
@@ -268,6 +275,7 @@ export default class Demo extends React.PureComponent {
                         />
                     </Scheduler>
                 </Paper>
+                <NotificationContainer />
             </React.Fragment>
         );
     }

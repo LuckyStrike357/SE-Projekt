@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import history from './../history';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 var errorTimeslot = "An diesem Tag stehen keine Zeiträume zur Buchung zur Verfügung";
 /*
@@ -19,14 +19,12 @@ class RenderTable extends Component {
     onClickTableRow = (event) => {
         //Called on Click of the booking button on each table row (timeslot)
         const timeslotID = event.target.id;
-        console.log("Timeslot ID", timeslotID);
         //route to next page and send timeslotID
-        history.push({ pathname: '/dataForm',state: {timeslot_id:timeslotID} });
+        history.push({ pathname: '/dataForm', state: { timeslot_id: timeslotID } });
     }
 
     render() {
         //render TableData
-        console.log("renderTableData");
         if (this.props.timeslots.length) {
             return this.props.timeslots.map((timeslot) => {
                 const { id, start, end, free } = timeslot //destructuring
@@ -47,10 +45,10 @@ class RenderTable extends Component {
                 )
             })
         } else { //show if no data is available
-            
+
             return (
                 <tr >
-                    <td colSpan="5">{errorTimeslot}</td> 
+                    <td colSpan="5">{errorTimeslot}</td>
                 </tr>
             )
         }
@@ -73,14 +71,25 @@ export default class FindSlotPage extends Component {
         this.fetchTimeslotsPerDay(today);
     }
 
+    createNotification = (type) => {
+        //define notification
+
+        switch (type) {
+            case 'error':
+                NotificationManager.error('Fehler!', 'Fehler beim Vorgang!', 5000);
+                break;
+            default:
+            // do nothing
+        }
+    }
+
     onChange = (date) => {
-         //fetch timeslot data for selected date
+        //fetch timeslot data for selected date
         this.setState({ date });
         this.fetchTimeslotsPerDay(date);
     }
 
     fetchTimeslotsPerDay = async (date) => {
-        console.log("start fetch timeslot data per day");
 
         //convert dates
         var startDate = new Date(date);
@@ -88,16 +97,15 @@ export default class FindSlotPage extends Component {
         endDate.setDate(date.getDate() + 1);
         var startYear = startDate.getFullYear();
         var endYear = endDate.getFullYear();
-        var startMonth = startDate.getMonth()+1;
-        var endMonth = endDate.getMonth()+1;
+        var startMonth = startDate.getMonth() + 1;
+        var endMonth = endDate.getMonth() + 1;
         var startDay = startDate.getDate();
         var endDay = endDate.getDate();
         const start = "" + startYear + "-" + startMonth + "-" + startDay;
         const end = "" + endYear + "-" + endMonth + "-" + endDay;
-       
+
         //create url
         var url = `/timeslots/?start=` + start + `&end=` + end;
-        console.log(url)
 
         //fetch and result
         const result = await fetch(url);
@@ -108,17 +116,15 @@ export default class FindSlotPage extends Component {
 
         } else {
             this.setState({ timeslots: [] });
-            console.log("Error during fetchTimeslotsPerDay: ", result.status);
         }
     }
 
     fetchTimeslotBookings = async (timeslotsdata) => {
-        console.log("timeslots",timeslotsdata)
         var checkedTimeslots = [];
-        
+
         //loop over each timeslot and preprocess
         //don't use array.prototype.forEach() functions with async and await!
-        for(const timeslot of timeslotsdata){
+        for (const timeslot of timeslotsdata) {
 
             var url = `/timeslots/?id=` + timeslot.id + `&count=true`;
             const result = await fetch(url);
@@ -131,18 +137,17 @@ export default class FindSlotPage extends Component {
 
                 //check if timeslot is in future or past
                 var startDate = new Date(timeslot.start);
-                var todayDate = new Date(); 
-                if(startDate>todayDate && timeslot.free>0){
+                var todayDate = new Date();
+                if (startDate > todayDate && timeslot.free > 0) {
                     //add to final array
                     checkedTimeslots.push(timeslot);
                 }
 
             } else {
-                console.log("Error during fetchTimeslotBookings: ", result.status);
+                this.createNotification('error')
             }
         }
         this.setState({ timeslots: checkedTimeslots });
-        console.log("checkedTimeslots",checkedTimeslots);
     }
 
     //HTMl Part of Page
@@ -154,7 +159,8 @@ export default class FindSlotPage extends Component {
                     <div className="findDay">
                         <Calendar
                             onChange={this.onChange}
-                            value={this.state.date} />
+                            value={this.state.date}
+                            minDate={new Date()} />
                     </div>
                     <div className="findTime">
                         <h1>Finden Sie einen Zeitraum am {this.state.date.toLocaleDateString('de-DE')}</h1>
@@ -173,6 +179,7 @@ export default class FindSlotPage extends Component {
                         </Table>
                     </div>
                 </div>
+                <NotificationContainer />
             </React.Fragment>
         );
     }
