@@ -71,6 +71,18 @@ export default class FindSlotPage extends Component {
         this.fetchTimeslotsPerDay(today);
     }
 
+    createNotification = (type) => {
+        //define notification
+
+        switch (type) {
+            case 'error':
+                NotificationManager.error('Fehler!', 'Fehler beim Vorgang!', 5000);
+                break;
+            default:
+            // do nothing
+        }
+    }
+
     onChange = (date) => {
         //fetch timeslot data for selected date
         this.setState({ date });
@@ -132,7 +144,7 @@ export default class FindSlotPage extends Component {
                 }
 
             } else {
-                console.warn("Error during fetchTimeslotBookings: ", result.status);
+                this.createNotification('error')
             }
         }
         this.setState({ timeslots: checkedTimeslots });

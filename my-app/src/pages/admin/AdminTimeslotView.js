@@ -14,6 +14,7 @@ import {
     AppointmentTooltip,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import history from '../../history';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 /*Page for creating, updating and deleting timeslots
 *get: token from AdminNavigation
@@ -58,7 +59,7 @@ const BasicLayout = ({ appointmentData, ...restProps }) => {
 
 /* Customize AppointmentForm End*/
 
-export default class Demo extends React.PureComponent {
+export default class AdminTimeslotView extends React.PureComponent {
     /* Component for Schedule for timeslots*/
 
     constructor(props) {
@@ -92,9 +93,20 @@ export default class Demo extends React.PureComponent {
         }
     }
 
+    createNotification = (type) => {
+        //define notification
+
+        switch (type) {
+            case 'error':
+                NotificationManager.error('Fehler!', 'Fehler beim Vorgang!', 5000);
+                break;
+            default:
+            // do nothing
+        }
+    }
+
     async fetchTimeslots() {
         //db connection to fetch timeslot data
-        console.log("start fetch timeslot");
         var url = `/timeslots/`;
         const result = await fetch(url);
         if (result.ok) {
@@ -102,7 +114,6 @@ export default class Demo extends React.PureComponent {
             this.fetchTimeslotBookings(body);
         } else {
             this.setState({ timeslots: [] });
-            console.log("Error during fetchTimeslots: ", result.status);
         }
 
     }
@@ -128,7 +139,7 @@ export default class Demo extends React.PureComponent {
 
                 checkedTimeslots.push(timeslot);
             } else {
-                console.warn("Error during fetchTimeslotBookings: ", result.status);
+                this.createNotification('error');
             }
         }
         this.setState({ timeslots: checkedTimeslots });
@@ -152,12 +163,10 @@ export default class Demo extends React.PureComponent {
             body: JSON.stringify(data),
         });
         if (result.ok) {
-            const body = await result.json();
-            console.log("Added Timeslot :", start, end, capacity)
+            //do nothing
 
         } else {
-            console.log("Error during addTimeslot: ", result.status);
-
+            this.createNotification('error');
         }
     }
 
@@ -179,10 +188,9 @@ export default class Demo extends React.PureComponent {
             body: JSON.stringify(data),
         });
         if (result.ok) {
-            const body = await result.json();
-            console.log("Updated Timeslot :", changed)
+            // do nothing
         } else {
-            console.log("Error during updateTimeslot: ", result.status);
+            this.createNotification('error');
         }
     }
 
@@ -201,10 +209,9 @@ export default class Demo extends React.PureComponent {
 
         });
         if (result.ok) {
-            const body = await result.json();
-            console.log("Deleted Timeslot :", id)
+            // do nothing
         } else {
-            console.log("Error during deleteTimeslot: ", result.status);
+            this.createNotification('error');
         }
     }
 
