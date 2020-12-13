@@ -12,7 +12,7 @@ import AdminTimeslotView from './pages/admin/AdminTimeslotView';
 import AdminCheckQR from './pages/admin/AdminCheckQR';
 import history from './history';
 
-/* Thid file contains all available routes for our app*/
+/* This file contains all available frontend routes for our app*/
 
 export default class Routes extends Component {
     render() {
