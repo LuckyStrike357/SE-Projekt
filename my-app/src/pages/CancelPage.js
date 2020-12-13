@@ -114,6 +114,7 @@ export default class CancelPageClass extends Component {
                             <Form.Control required type="email" placeholder="Email" />
                         </Form.Group>
 
+                        <p>Buchungsdatum:</p>
                         <DatePicker></DatePicker>
 
                         <Button variant="primary" type="submit">
