@@ -38,7 +38,7 @@ const BooleanEditor = ({ props }) => {
     return (<></>);
 };
 
-const BasicLayout = ({ appointmentData,  ...restProps }) => {
+const BasicLayout = ({ appointmentData, ...restProps }) => {
     return (
         <AppointmentForm.BasicLayout
             appointmentData={appointmentData}
@@ -59,7 +59,7 @@ const BasicLayout = ({ appointmentData,  ...restProps }) => {
 /* Customize AppointmentForm End*/
 
 export default class Demo extends React.PureComponent {
-/* Component for Schedule for timeslots*/
+    /* Component for Schedule for timeslots*/
 
     constructor(props) {
         super(props);
@@ -82,14 +82,14 @@ export default class Demo extends React.PureComponent {
         };
 
         this.commitChanges = this.commitChanges.bind(this);
-      
+
     }
 
     componentDidMount() {
         if (history.location.state) {
             this.setState({ token: history.location.state.token });
             this.fetchTimeslots();
-        } 
+        }
     }
 
     async fetchTimeslots() {
@@ -119,16 +119,16 @@ export default class Demo extends React.PureComponent {
                 //calc capacity
 
                 if (timeslot.capacity) {
-                    timeslot.bookings = Math.round(body.count / timeslot.capacity);
+                    timeslot.bookings = Math.round(body.count / timeslot.capacity * 100);
                 } else {
                     timeslot.bookings = 100;
                 }
                 timeslot.startDate = new Date(timeslot.start);
                 timeslot.endDate = new Date(timeslot.end);
-                
+
                 checkedTimeslots.push(timeslot);
             } else {
-                console.log("Error during fetchTimeslotBookings: ", result.status);
+                console.warn("Error during fetchTimeslotBookings: ", result.status);
             }
         }
         this.setState({ timeslots: checkedTimeslots });
@@ -163,7 +163,7 @@ export default class Demo extends React.PureComponent {
 
     async updateTimeslot(changed) {
         //db connection to update timeslot
-       
+
         var id = Object.keys(changed)[0]; //get id
         var data = Object.values(changed)[0]; //get changed values
 
@@ -210,7 +210,7 @@ export default class Demo extends React.PureComponent {
 
     commitChanges({ added, changed, deleted }) {
         //handle changes
-        
+
         if (added) {
             this.addTimeslot(added.startDate, added.endDate, added.capacity)
         }
@@ -220,15 +220,15 @@ export default class Demo extends React.PureComponent {
         if (deleted !== undefined) {
             this.deleteTimeslot(deleted);
         }
-        
-        this.fetchTimeslots();  
+
+        this.fetchTimeslots();
 
     }
 
     //HTML Part
     render() {
         const { resources } = this.state;
-    
+
 
         return (
             <React.Fragment>
@@ -239,7 +239,7 @@ export default class Demo extends React.PureComponent {
                     >
                         <EditingState
                             onCommitChanges={this.commitChanges}
-                           
+
                         />
                         <IntegratedEditing />
                         <ViewState

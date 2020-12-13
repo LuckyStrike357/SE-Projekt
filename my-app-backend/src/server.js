@@ -78,6 +78,12 @@ const run = async () => {
     timeslotId: timeslot2.id
   })
 
+  await db.booking.create({
+    visitorId: visitor1.id,
+    timeslotId: timeslot2.id,
+    scanned: true
+  })
+
   var bcrypt = require('bcryptjs');
   await db.user.create({
     first_name: "Test",

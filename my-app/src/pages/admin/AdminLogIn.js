@@ -21,7 +21,6 @@ export default class AdminLogInPage extends Component {
   createNotification = (type) => {
     //define notifications
 
-    console.log('createNotification');
     switch (type) {
       case 'success':
         NotificationManager.success('Buchung erfolgreich gelöscht!', 'Vorgang abgeschlossen');

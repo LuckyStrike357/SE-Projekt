@@ -166,12 +166,6 @@ body {
   opacity: 1;
 }
 
-.AdminLoginTextboxes {
-  margin-left: 35%;
-  margin-right: 35%;
-  margin-bottom: 2%;
-}
-
 .adminLogo {
   position: absolute;
   max-height: 75px;
@@ -180,17 +174,32 @@ body {
   top: 0%;
 }
 
-.DatumVon {
-  margin: 3%;
-}
-
-.DatumBis {
-  margin: 3%;
-}
-
 .adminLogout {
   position: absolute;
   right: 1%;
+}
+
+/* Admin Start */
+
+@media (max-width:1000px) {
+  .AdminLoginTextboxes {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
+
+@media (min-width:1000px) and (max-width:1500px) {
+  .AdminLoginTextboxes {
+    margin-left: 15rem;
+    margin-right: 15rem;
+  }
+}
+
+@media (min-width:1500px) {
+  .AdminLoginTextboxes {
+    margin-left: 30rem;
+    margin-right: 30rem;
+  }
 }
 
 /*Admin Timeslot*/
