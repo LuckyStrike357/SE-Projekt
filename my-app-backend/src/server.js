@@ -16,6 +16,8 @@ app.get('/', (req, res) => {
 
 // sync with the database
 const db = require("./models/index");
+
+// set "force: false" in order to prevent existing data being overwritten!
 db.sequelize.sync({ force: true }).then(res => { run() });
 
 //create some data
@@ -42,15 +44,27 @@ const run = async () => {
     telephone: "+49 123 456789",
   })
 
+  //get current day to create timeslot
+  let today = new Date()
+  let year = today.getFullYear()
+  let month = today.getMonth() + 1
+  let day = today.getDate()
+
+  let startTime = year + "-" + month + "-" + day + " 08:00:00"
+  let endTime = year + "-" + month + "-" + day + " 09:59:59"
+
   let timeslot1 = await db.timeslot.create({
-    start: "2020-11-10 08:00:00",
-    end: "2020-11-10 09:59:59",
+    start: startTime,
+    end: endTime,
     capacity: 100
   })
 
+  startTime = year + "-" + month + "-" + (day + 1) + " 08:00:00"
+  endTime = year + "-" + month + "-" + (day + 1) + " 09:59:59"
+
   let timeslot2 = await db.timeslot.create({
-    start: "2020-11-12 08:00:00",
-    end: "2020-11-12 09:59:59",
+    start: startTime,
+    end: endTime,
     capacity: 150
   })
 
