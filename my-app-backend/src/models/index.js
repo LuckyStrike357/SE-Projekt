@@ -1,3 +1,7 @@
+/**
+ * Initializes database with sequelize and creates associations 
+ */
+
 const config = require("../config/db.config.js");
 const Sequelize = require("sequelize");
 

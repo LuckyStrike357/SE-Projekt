@@ -1,3 +1,7 @@
+/**
+ * Routes for auth endpoint 
+ */
+
 module.exports = app => {
   const auth = require("../controllers/auth.controller.js");
   const VerifyToken = require('../middleware/verifyToken.js');

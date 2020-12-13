@@ -1,5 +1,5 @@
 /**
- * Import models
+ * Controller for the authentication endpoints
  */
 const db = require("../models/index.js");
 var User = db.user;

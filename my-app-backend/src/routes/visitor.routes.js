@@ -1,3 +1,7 @@
+/**
+ * Routes for visitor endpoint 
+ */
+
 module.exports = app => {
   const visitors = require("../controllers/visitor.controller.js");
   const VerifyToken = require('../middleware/verifyToken.js');

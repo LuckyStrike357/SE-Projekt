@@ -1,3 +1,7 @@
+/**
+ * Routes for export endpoint 
+ */
+
 module.exports = app => {
     const bookings = require("../controllers/booking.controller.js");
     const VerifyToken = require('../middleware/verifyToken.js');
