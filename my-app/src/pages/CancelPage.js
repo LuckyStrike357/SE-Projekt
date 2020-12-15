@@ -76,9 +76,9 @@ export default class CancelPageClass extends Component {
 
                 const dataForm = document.getElementById("dataForm");
 
-                let day = dataForm.children[2].children[0].children[0].value;
-                let month = dataForm.children[2].children[1].children[0].value;
-                let year = dataForm.children[2].children[2].children[0].value;
+                let day = dataForm.children[3].children[0].children[0].value;
+                let month = dataForm.children[3].children[1].children[0].value;
+                let year = dataForm.children[3].children[2].children[0].value;
 
                 const data = {
                     bookingId: document.getElementById("Buchungscode").value,
