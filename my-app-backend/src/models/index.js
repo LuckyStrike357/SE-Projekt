@@ -38,10 +38,7 @@ db.user = require("./user.model")(sequelize, Sequelize);
 // Define Relationships
 
 // Each booking has one visitor
-db.visitor.hasOne(db.booking, {
-  onDelete: 'CASCADE'
-});
-
+db.visitor.hasOne(db.booking);
 db.booking.belongsTo(db.visitor);
 
 //Timeslot has many bookings but a booking has only one timeslot 
