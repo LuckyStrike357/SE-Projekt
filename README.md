@@ -15,7 +15,7 @@ Software Engineering Projekt 5. Semester
 - Create a database called "visitor_tracker"
 - Grant all privileges on visitor_tracker.* to admin identified by 'admin123456'
 
-### Install dependencies
+### Install dependencies:
 
 - Open CMD
 - Go to '<your_local_path>\SE-Projekt\my-app'
@@ -34,4 +34,12 @@ Software Engineering Projekt 5. Semester
 - Run npm start
 - Click "yes" to run on port 3001
 - Your browser should automatically open 'localhost:3001'
+
+### Additional Notes:
+
+- Note: When starting the backend, there will automatically be data created. You can disable this behaviour by changing the server.js file.
+- Access the frontend with localhost:3001/
+- Access the backend with localhost:30001/admin
+- Default username: testuser
+- Default password: password123
 
