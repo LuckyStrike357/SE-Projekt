@@ -41,7 +41,7 @@ const run = async () => {
     email: "test@test.de",
     first_name: "Max",
     last_name: "Mustermann",
-    street: "Musterstraße",
+    street: "Musterstrasse",
     number: 1,
     city: "Musterstadt",
     postal_code: 123456,
