@@ -34,13 +34,14 @@ class RenderTable extends Component {
                 var startTime = startDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
                 var endDate = new Date(end);
                 var endTime = endDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+                var now = new Date()
 
                 return (
                     <tr key={id}>
                         <td>{startTime}</td>
                         <td>{endTime}</td>
                         <td>{free}</td>
-                        <td><Button id={id} onClick={(Event) => this.onClickTableRow(Event)}>Buchen</Button></td>
+                        <td><Button id={id} onClick={(Event) => this.onClickTableRow(Event)} disabled={startDate<now?true:false}>Buchen</Button></td>
                     </tr>
                 )
             })
@@ -135,10 +136,8 @@ export default class FindSlotPage extends Component {
                 //calc free bookings
                 timeslot.free = timeslot.capacity - body.count;
 
-                //check if timeslot is in future or past
-                var startDate = new Date(timeslot.start);
-                var todayDate = new Date();
-                if (startDate > todayDate && timeslot.free > 0) {
+                //check capacity
+                if (timeslot.free > 0) {
                     //add to final array
                     checkedTimeslots.push(timeslot);
                 }
