@@ -17,9 +17,9 @@ timestamp() {
 
 # Delete all visitors who had bookings more than 4 weeks ago 
 
-echo "$(timestamp): Start deleting visitors" >> ./result.txt
+echo "$(timestamp): Start deleting visitors" >> /home/ubuntu/git/SE-Projekt/Database/result.txt
 
 result=$(mysql -u $user -p$password $database -vvv -N -e "DELETE FROM visitors WHERE id IN ( SELECT visitorid from bookings JOIN timeslots ON timeslots.id = bookings.timeslotid WHERE timeslots.start <= DATE_SUB(CURDATE(), INTERVAL 4 WEEK));")
 
-echo "$result" >> ./result.txt
-echo "--------------------------------------" >> ./result.txt
+echo "$result" >> /home/ubuntu/git/SE-Projekt/Database/result.txt
+echo "--------------------------------------" >> /home/ubuntu/git/SE-Projekt/Database/result.txt
