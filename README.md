@@ -43,3 +43,12 @@ Software Engineering Projekt 5. Semester
 - Default username: testuser
 - Default password: password123
 
+### Excel Export 
+ - By clicking on Export the user will receive an .CSV document. 
+ - To transform this to an Excel table do the following: 
+    - Go to 'Data' tab.
+    -  Select 'From Text'and choose the .CSV file which you want to import. 
+    - Make sure to choose the 'Comma' selection. 
+    - When you are done click 'Finish' 
+ 
+
