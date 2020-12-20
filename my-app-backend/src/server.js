@@ -22,7 +22,40 @@ db.sequelize.sync({ force: true }).then(res => { run() });
 
 //create some data
 const run = async() => {
-    let visitor = await db.visitor.create({
+    let visitor1 = await db.visitor.create({
+        email: "test@test.de",
+        first_name: "Max",
+        last_name: "Mustermann",
+        street: "Musterstrasse",
+        number: 1,
+        city: "Musterstadt",
+        postal_code: 123456,
+        telephone: "+49 123 456789",
+    })
+
+    let visitor2 = await db.visitor.create({
+        email: "test@test.de",
+        first_name: "Max",
+        last_name: "Mustermann",
+        street: "Musterstrasse",
+        number: 1,
+        city: "Musterstadt",
+        postal_code: 123456,
+        telephone: "+49 123 456789",
+    })
+
+    let visitor3 = await db.visitor.create({
+        email: "test@test.de",
+        first_name: "Max",
+        last_name: "Mustermann",
+        street: "Musterstrasse",
+        number: 1,
+        city: "Musterstadt",
+        postal_code: 123456,
+        telephone: "+49 123 456789",
+    })
+
+    let visitor4 = await db.visitor.create({
         email: "test@test.de",
         first_name: "Max",
         last_name: "Mustermann",
@@ -73,23 +106,23 @@ const run = async() => {
     })
 
     await db.booking.create({
-        visitorId: visitor.id,
+        visitorId: visitor1.id,
         timeslotId: timeslot3.id
 
     })
 
     await db.booking.create({
-        visitorId: visitor.id,
+        visitorId: visitor2.id,
         timeslotId: timeslot1.id
     })
 
     await db.booking.create({
-        visitorId: visitor.id,
+        visitorId: visitor3.id,
         timeslotId: timeslot2.id
     })
 
     await db.booking.create({
-        visitorId: visitor.id,
+        visitorId: visitor4.id,
         timeslotId: timeslot2.id,
         scanned: true
     })
