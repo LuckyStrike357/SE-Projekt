@@ -12,7 +12,7 @@ database="visitor_tracker"
 
 # Define a timestamp function
 timestamp() {
-  date +"%T" # current time
+  date +"%D - %T" # current time
 }
 
 # Delete all visitors who had bookings more than 4 weeks ago 
